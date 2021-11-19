@@ -1,44 +1,41 @@
 import streamlit as st
 import random
 
-#https://pythonwife.com/streamlit-interview-questions/
+# https://pythonwife.com/streamlit-interview-questions/
 
 st.title("Etude sur le provisionnement en assurance non-vie")
 
 if 'menu' not in st.session_state:
-    st.session_state.menu = 0 #0 menu, 1 questionnaire, 2 cas pratique
+    st.session_state.menu = 0   # 0 menu, 1 questionnaire, 2 cas pratique
 
-#Début de l'étude
+# Début de l'étude
 
-if st.session_state.menu==0:
+if st.session_state.menu == 0:
 
     st.write("Cette étude, effecutée dans le cadre d'un mémoire d'actuariat, vise à obtenir une meilleure connaissance des pratiques actuarielles en matière de provisionnement en assurance non-vie.")
     st.write("Professionnels et étudiants dans le domaine de l'actuariat sont invités à y répondre.")
 
-    st.write("L'étude est constituée de deux parties indépendantes : un questionnaire et une série de cas pratiques.")
+    st.markdown("L'étude est constituée de deux parties indépendantes : un questionnaire _(~ 5 minutes)_ et une série de cas pratiques _(~ 20 minutes)_.")
 
-    st.session_state.questionnaire = st.button("Répondre au questionnaire")
-    st.session_state.cas_pratique = st.button("Effectuer les cas pratiques")
+    st.session_state.questionnaire = st.button("Questionnaire")
+    st.session_state.cas_pratique = st.button("Cas pratiques")
 
     st.write("Merci par avance pour votre participation !")
 
     if st.session_state.questionnaire:
         st.session_state.menu = 1
+        st.session_state.page = 0
         st.experimental_rerun()
 
     if st.session_state.cas_pratique:
         st.session_state.menu = 2
         st.experimental_rerun()
 
-if st.session_state.menu==1:
+if st.session_state.menu == 1:
 
-    if 'page' not in st.session_state:
-        st.session_state.page = -1
-
-    if st.session_state.page==0:
+    if st.session_state.page == 0:
 
         st.session_state.user_data = []
-        st.session_state.page = 1
 
         import socket
         st.session_state.user_data.append(socket.gethostbyname(socket.gethostname()))
@@ -54,14 +51,23 @@ if st.session_state.menu==1:
         temps_debut = now.strftime("%H:%M:%S")
         st.session_state.user_data.append(temps_debut)
 
-        st.write("Ce bref questionnaire vise à obtenir une meilleure connaissance des pratiques actuarielles dans le domaine du provisionnement non-vie. "
-                "Actuaires, chargés d’études actuarielles et étudiants en actuariat sont invités à y participer.")
+        st.write("Ce bref questionnaire vise à obtenir une meilleure connaissance des pratiques actuarielles dans le domaine du provisionnement non-vie. ")
         st.write("Les résultats sont anonymes, les informations personnelles servant uniquement à des fins de statistiques descriptives.")
+        st.markdown("_Attention : une fois le questionnaire commencé il n'est pas possible de revenir en arrière_")
         st.write("Merci d’avance pour votre participation,")
-        st.button("Commencer l'étude")
+        st.session_state.deb_questionnaire = st.button("Commencer le questionnaire")
+        st.session_state.retour_menu = st.button("Retour")
+
+        if st.session_state.deb_questionnaire:
+            st.session_state.page = 1
+            st.experimental_rerun()
+
+        if st.session_state.retour_menu:
+            st.session_state.menu = 0
+            st.experimental_rerun()
 
     #Profil de l'individu
-    elif st.session_state.page==1:
+    elif st.session_state.page == 1:
 
         st.header("Informations générales")
         st.write("Ce premier groupe de question vise à préciser votre profil")
@@ -69,8 +75,8 @@ if st.session_state.menu==1:
         with st.form(key='bloc_1'):
             sexe = st.selectbox('Sexe', ["-", "Homme", "Femme", "Non précisé"])
             age = st.selectbox('Âge', ["-","18-25", "26-35", "35-50", "51 et plus"])
-            type_entreprise = st.selectbox("Type d'entreprise",["-", "Ne travaille pas", "Compagnie d'assurance", "Mutuelle","Bancassureur","Cabinet de conseil","Autre"])
-            seniorite = st.selectbox("Séniorité en actuariat",["-","Etudiant","0-2 ans","2-5 ans","5-8 ans","8-15 ans","15 ans et plus"])
+            type_entreprise = st.selectbox("Type d'entreprise", ["-", "Ne travaille pas", "Compagnie d'assurance", "Mutuelle", "Bancassureur"," Cabinet de conseil", "Autre"])
+            seniorite = st.selectbox("Séniorité en actuariat", ["-", "Etudiant", "0-2 ans", "2-5 ans", "5-8 ans", "8-15 ans", "15 ans et plus"])
             submit_button_1 = st.form_submit_button(label='Page suivante')
 
         if submit_button_1:
@@ -89,27 +95,27 @@ if st.session_state.menu==1:
 
             st.experimental_rerun()
 
-    #Méthodes de provisionnement
-    elif st.session_state.page==2:
+    # Méthodes de provisionnement
+    elif st.session_state.page == 2:
 
         st.header("Provisionnement")
 
         with st.form(key='methode_provisionnement'):
             methode_connue = st.multiselect(
                 "De quelles méthodes de provisionnement avez déjà entendu parler ? (plusieurs réponses possibles)",
-                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"]) #6 méthodes
+                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"]) # 6 méthodes
             methode_utilisee = st.multiselect(
                 "Quelles méthodes avez-vous déjà utilisé dans un cadre professionnel ? (plusieurs réponses possibles)",
-                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"]) #6 méthodes
+                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"]) # 6 méthodes
             sb_methode_provisionnement = st.form_submit_button(label="Page suivante")
 
         if sb_methode_provisionnement:
 
             st.session_state.page += 1
 
-            while len(methode_connue)<6:
+            while len(methode_connue) < 6:
                 methode_connue.append("")
-            while len(methode_utilisee)<6:
+            while len(methode_utilisee) < 6:
                 methode_utilisee.append("")
 
             st.session_state.user_data.append("BLOC")
@@ -129,12 +135,12 @@ if st.session_state.menu==1:
                 st.session_state.user_data.append("Framing positif")
             else:
                 st.session_state.user_data.append("Framing négatif")
-            #GROUPE QUESTION SUIVANTE
+            # GROUPE QUESTION SUIVANTE
 
             st.experimental_rerun()
 
-    #Maladie Kahneman
-    elif st.session_state.page==3:
+    # Maladie Kahneman
+    elif st.session_state.page == 3:
 
         st.header("Approche du risque")
         st.write("Ce deuxième groupe de questions vise à étudier votre appréhension du risque")
@@ -144,7 +150,7 @@ if st.session_state.menu==1:
                 st.write("La France s'attend à l'arrivée d'une maladie infectieuse, supposée tuer 600 personnes. Deux programmes de traitement sont disponibles pour endiguer la maladie :")
                 st.write("- Si le programme A est adopté, 200 personnes seront sauvées")
                 st.write("- Si le programme B est adopté, il y a 1/3 de chances que 600 personnes soient sauvées et 2/3 de chances que personne ne soit sauvé")
-                programme = st.selectbox("Quel programme vous semble préférable ?",["-", "Programme A", "Programme B"])
+                programme = st.selectbox("Quel programme vous semble préférable ?", ["-", "Programme A", "Programme B"])
                 sb_framing_kahneman = st.form_submit_button(label="Page suivante")
 
         else:
@@ -160,8 +166,8 @@ if st.session_state.menu==1:
             st.session_state.user_data.append(programme)
             st.experimental_rerun()
 
-    #Gambler's fallacy
-    elif st.session_state.page==4:
+    # Gambler's fallacy
+    elif st.session_state.page == 4:
 
         st.header("Approche du risque")
 
@@ -177,14 +183,14 @@ if st.session_state.menu==1:
             st.session_state.user_data.append(accident)
             st.experimental_rerun()
 
-    #Intervalle de confiance S/P auto
-    elif st.session_state.page==5:
+    # Intervalle de confiance S/P auto
+    elif st.session_state.page == 5:
 
         st.header("Marché assurantiel")
 
         with st.form(key="marche_auto"):
             st.write("Donnez un intervalle pour le ratio S/P du secteur automobile français en 2019 avec une certitude de 90%")
-            marche_auto = st.slider("Ratio S/P du secteur automobile français",min_value=50,max_value=150,value=(90,110))
+            marche_auto = st.slider("Ratio S/P du secteur automobile français",min_value=50, max_value=150, value=(90, 110))
             sb_SP_marche_auto = st.form_submit_button(label="Page suivante")
 
         if sb_SP_marche_auto:
@@ -490,6 +496,3 @@ if st.session_state.menu==1:
         st.button("Retourner au menu")
 
     #my_bar.empty()
-
-
-
