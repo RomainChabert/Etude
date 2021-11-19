@@ -7,6 +7,23 @@ st.title("Etude sur le provisionnement en assurance non-vie")
 
 #Début de l'étude
 if 'page' not in st.session_state:
+    st.session_state.page = -1
+
+if st.session_state.page==-1:
+
+    st.write("Cette étude, effecutée dans le cadre d'un mémoire d'actuariat, vise à obtenir une meilleure connaissance des pratiques actuarielles en matière de provisionnement en assurance non-vie.")
+    st.write("Professionnels et étudiants dans le domaine de l'actuariat sont invités à y répondre.")
+
+    st.write("L'étude est constituée de deux parties indépendantes : un questionnaire et une série de cas pratiques.")
+
+    st.session_state.questionnaire = st.button("Répondre au questionnaire")
+    st.button("Effectuer les cas pratiques")
+
+    st.session_state.questionnaire
+
+    st.write("Merci par avance pour votre participation !")
+
+if st.session_state.page==0:
 
     st.session_state.user_data = []
     st.session_state.page = 1
@@ -457,6 +474,8 @@ elif st.session_state.page == 999:
     st.write("Vos résultats ont bien été pris en compte")
     st.write("Merci pour votre participation")
     st.write("Pour toute remarque ou commentaire complémentaire, n'hésitez pas à envoyer un mail à rchabert@deloitte.fr")
+
+    st.button("Retourner au menu")
 
 #my_bar.empty()
 
