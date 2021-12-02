@@ -17,10 +17,25 @@ if st.session_state.menu == 0:
     st.write("Cette étude, effectuée dans le cadre d'un mémoire d'actuariat, vise à obtenir une meilleure connaissance des pratiques actuarielles en matière de provisionnement en assurance non-vie.")
     st.write("Professionnels et étudiants dans le domaine de l'actuariat sont invités à y répondre.")
     st.markdown("L'étude est constituée de deux parties indépendantes : un questionnaire en ligne _(~ 5 minutes)_ et un cas pratique sous Excel _(~ 20 minutes)_.")
-    st.markdown("**Merci par avance pour votre participation !**")
+    st.markdown("L'étude est constituée de deux parties indépendantes :")
 
-    st.session_state.questionnaire = st.button("Questionnaire")
-    st.session_state.cas_pratique = st.button("Cas pratique")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("- Un questionnaire en ligne")
+
+    with col2:
+        st.session_state.questionnaire = st.button("Questionnaire")
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.write("- Un cas pratique sous Excel")
+
+    with col4:
+        st.session_state.cas_pratique = st.button("Cas pratique")
+
+    st.markdown("**Merci par avance pour votre participation !**")
 
     st.markdown("Pour toute remarque ou commentaire, n'hésitez pas à contacter Romain Chabert à l'adresse <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
 
@@ -37,6 +52,23 @@ elif st.session_state.menu == 1:
 
     if st.session_state.page == 0:
 
+        st.write("Ce questionnaire est constitué d'une dizaine de questions, pour lesquelles il sera demandé de sélectionner une ou plusieurs réponses, de l'écrire ou de sélectionner celle-ci sur une frise.")
+        st.write("Les résultats du questionnaire sont anonymes, les informations personnelles servant uniquement à des fins de statistiques descriptives.")
+        st.markdown("_Attention : une fois le questionnaire commencé il n'est pas possible de revenir en arrière._")
+        st.session_state.deb_questionnaire = st.button("Commencer le questionnaire")
+        st.session_state.retour_menu = st.button("Retour")
+
+        if st.session_state.deb_questionnaire:
+            st.session_state.page = 1
+            st.experimental_rerun()
+
+        if st.session_state.retour_menu:
+            st.session_state.menu = 0
+            st.experimental_rerun()
+
+    # Profil de l'individu
+    elif st.session_state.page == 1:
+
         st.session_state.user_data = []
 
         from datetime import datetime
@@ -50,27 +82,11 @@ elif st.session_state.menu == 1:
         temps_debut = now.strftime("%H:%M:%S")
         st.session_state.user_data.append(temps_debut)
 
-        st.write("Les résultats du questionnaire sont anonymes, les informations personnelles servant uniquement à des fins de statistiques descriptives.")
-        st.markdown("_Attention : une fois le questionnaire commencé il n'est pas possible de revenir en arrière_")
-        st.session_state.deb_questionnaire = st.button("Commencer le questionnaire")
-        st.session_state.retour_menu = st.button("Retour")
-
-        if st.session_state.deb_questionnaire:
-            st.session_state.page = 1
-            st.session_state.alea = random.uniform(0, 1)
-            st.experimental_rerun()
-
-        if st.session_state.retour_menu:
-            st.session_state.menu = 0
-            st.experimental_rerun()
-
-    # Profil de l'individu
-    elif st.session_state.page == 1:
-
         st.header("Informations générales")
         st.write("Ce premier groupe de question vise à préciser votre profil")
 
         with st.form(key='bloc_1'):
+            mail_utilisateur = st.text_input("Adresse e-mail", '@')
             sexe = st.selectbox('Sexe', ["-", "Homme", "Femme", "Non précisé"])
             age = st.selectbox('Âge', ["-", "18-25", "26-35", "35-50", "51 et plus"])
             type_entreprise = st.selectbox("Type d'entreprise", ["-", "Étudiant", "Compagnie d'assurance", "Mutuelle", "Bancassureur", " Cabinet de conseil", "Autre"])
@@ -78,20 +94,26 @@ elif st.session_state.menu == 1:
             submit_button_1 = st.form_submit_button(label='Page suivante')
 
         if submit_button_1:
-            st.session_state.page += 1
 
-            st.session_state.user_data.append("BLOC")
+            if mail_utilisateur == "@" or mail_utilisateur == "":
+                st.warning("Merci de bien vouloir renseigner votre adresse e-mail")
 
-            st.session_state.user_data.append("Sexe")
-            st.session_state.user_data.append(sexe)
-            st.session_state.user_data.append("Age")
-            st.session_state.user_data.append(age)
-            st.session_state.user_data.append("Type d'entreprise")
-            st.session_state.user_data.append(type_entreprise)
-            st.session_state.user_data.append("Séniorité")
-            st.session_state.user_data.append(seniorite)
+            else:
+                st.session_state.page += 1
 
-            st.experimental_rerun()
+                st.session_state.user_data.append("BLOC")
+                st.session_state.user_data.append("Adresse mail")
+                st.session_state.user_data.append(mail_utilisateur)
+                st.session_state.user_data.append("Sexe")
+                st.session_state.user_data.append(sexe)
+                st.session_state.user_data.append("Age")
+                st.session_state.user_data.append(age)
+                st.session_state.user_data.append("Type d'entreprise")
+                st.session_state.user_data.append(type_entreprise)
+                st.session_state.user_data.append("Séniorité")
+                st.session_state.user_data.append(seniorite)
+
+                st.experimental_rerun()
 
     # Méthodes de provisionnement
     elif st.session_state.page == 2:
@@ -99,6 +121,7 @@ elif st.session_state.menu == 1:
         st.header("Provisionnement")
 
         with st.form(key='methode_provisionnement'):
+            provisionnement = st.selectbox('Travaillez-vous ou avez-vous déjà travaillé sur des questions de provisionnement ?', ["-", "Oui", "Non"])
             methode_connue = st.multiselect(
                 "De quelles méthodes de provisionnement avez déjà entendu parler ? (plusieurs réponses possibles)",
                 ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"])  # 6 méthodes
@@ -118,6 +141,9 @@ elif st.session_state.menu == 1:
 
             st.session_state.user_data.append("BLOC")
 
+            st.session_state.user_data.append("Expérience provisionnement")
+            st.session_state.user_data.append(provisionnement)
+
             st.session_state.user_data.append("Méthodes connues")
             st.session_state.user_data.extend(methode_connue)
 
@@ -133,6 +159,14 @@ elif st.session_state.menu == 1:
                 st.session_state.user_data.append("Courbe verte")
             else:
                 st.session_state.user_data.append("Courbe rouge")
+
+            st.session_state.alea2 = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea2)
+            if st.session_state.alea2 < 0.5:
+                st.session_state.user_data.append("Ancre basse")
+            else:
+                st.session_state.user_data.append("Ancre haute")
+
             # GROUPE QUESTION SUIVANTE
 
             st.experimental_rerun()
@@ -197,17 +231,23 @@ elif st.session_state.menu == 1:
             rules_prime
         )
 
-        st.write("On dispose de données relatives au montant de primes perçues entre 1998 et 2010 par une compagnie d'assurance (en millions d'euros).")
-        st.write("Selon vous, à combien s'élève le montant de primes perçus l'année suivante (2011) ? 5 ans plus tard (2015) ?")
+        st.write("On dispose de données relatives au montant de primes acquises entre 1998 et 2010 par une compagnie d'assurance (en millions d'euros).")
+        st.write("Selon vous, à combien s'élève le montant de primes acquises l'année suivante (2011) ? 5 ans plus tard (2015) ?")
 
         # st.altair_chart(line_prime,True)
         st.altair_chart(graphe_prime, True)
 
-        with st.form(key="montant_prime"):
+        if st.session_state.alea2 < 0.5:
+            with st.form(key="montant_prime"):
+                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 210.0, 350.0, 260.0)
+                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 160.0, 340.0, 250.0)
+                sb_montant_prime = st.form_submit_button(label="Page suivante")
 
-            slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 320.0, 260.0)
-            slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 320.0, 260.0)
-            sb_montant_prime = st.form_submit_button(label="Page suivante")
+        else:
+            with st.form(key="montant_prime"):
+                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 210.0, 350.0, 260.0)
+                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 210.0, 350.0, 300.0)
+                sb_montant_prime = st.form_submit_button(label="Page suivante")
 
         if sb_montant_prime:
             st.session_state.page += 1
@@ -268,7 +308,7 @@ elif st.session_state.menu == 1:
             graphe_bas_rouge = alt.layer(line_bas_rouge, selectors, points_bas_rouge, text_bas_rouge, rules)
 
             st.write("On dispose des données relatives à la charge de sinistre de la LoB 'MALUS' d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
-            st.markdown("Aucune évolution notable n'est à relever pour ce qui est de la structure du portefeuille.")
+            st.markdown("Aucune évolution notable n'est à relever pour ce qui est du profil de risque du portefeuille.")
 
             col1, col2 = st.columns(2)
             with col1:
@@ -277,7 +317,7 @@ elif st.session_state.menu == 1:
             with col2:
                 st.write(dataframe_bas)
 
-            st.write("A votre avis, à combien s'élève la charge de sinistre pour l'année 2018 ? (en millions)")
+            st.write("A votre avis, à combien devrait s'élèver la charge de sinistre pour l'année 2018 ? (en millions)")
 
             with st.form(key="retour_moyenne_1"):
                 slider_retour_moyenne = st.slider("Charge sinistre en 2018", 0.0, 110.0, 55.0)
@@ -304,7 +344,7 @@ elif st.session_state.menu == 1:
             graphe_haut_vert = alt.layer(line_haut_vert, selectors, points_haut_vert, rules, text_haut_vert)
 
             st.write("On dispose des données relatives à la charge de sinistre de la LoB 'MALUS' d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
-            st.markdown("Aucune évolution notable n'est à relever pour ce qui est de la structure du portefeuille.")
+            st.markdown("Aucune évolution notable n'est à relever pour ce qui est du profil de risque du portefeuille.")
 
             col1, col2 = st.columns(2)
             with col1:
@@ -313,7 +353,7 @@ elif st.session_state.menu == 1:
             with col2:
                 st.write(dataframe_haut)
 
-            st.write("Selon vous, à combien s'élève la charge de sinistre pour l'année 2018 ? (en millions)")
+            st.write("Selon vous, à combien devrait s'élever la charge de sinistre pour l'année 2018 ? (en millions)")
 
             with st.form(key="retour_moyenne_1"):
                 slider_retour_moyenne = st.slider("Charge sinistre en 2018", 60.0, 160.0, 110.0)
@@ -331,7 +371,7 @@ elif st.session_state.menu == 1:
         st.header("Approche du risque")
 
         with st.form(key="gambler"):
-            st.write("On estime à 2% la probabilité d’avoir un accident non responsable pour les individus en portefeuille. Les assurés A et B ont le même profil de risque et les mêmes pratiques de conduite. ")
+            st.write("La probabilité moyenne d'avoir un accident non-responsable pour les individus en portefeuille est estimée à 2%. Les assurés A et B ont le même profil de risque et les mêmes pratiques de conduite. ")
             st.write("L’année dernière, l’individu A a eu 4 accidents auto non responsables. L’individu B n’a jamais eu d’accident")
             accident = st.text_input("Qui est le plus susceptible d'avoir un nouvel accident le premier ?")
             sb_gambler = st.form_submit_button(label="Page suivante")
@@ -491,13 +531,11 @@ elif st.session_state.menu == 1:
 
         with st.form(key='my_form_end'):
             retour_utilisateur = st.text_input(label='Vous pouvez noter ici des remarques éventuelles')
-            mail_utilisateur = st.text_input("Vous pouvez noter ici votre adresse mail si vous souhaitez participer à la partie pratique de l'étude (application de la méthode de Chain-Ladder à des cas concrets)", '@')
-            submit_button_end = st.form_submit_button(label="Terminer l'étude")
+            submit_button_end = st.form_submit_button(label="Terminer l'étude et envoyer les résultats")
 
         if submit_button_end:
 
             st.session_state.user_data.append(retour_utilisateur)
-            st.session_state.user_data.append(mail_utilisateur)
 
             from datetime import datetime
             from datetime import date
@@ -507,35 +545,21 @@ elif st.session_state.menu == 1:
 
             import gspread
 
-            # A supprimer (compromis & modifés)
             credentials = {
-                "type": "service_account",
-                "project_id": "acoustic-mix-331213",
-                "private_key_id": "28bf926ad27ea160b487b68d615b6a8c87659cfa",
-                "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQC5enym8sKaQvSb\nLBPjfRg0fZVL6ToQNMvUBTJdMqDHRzBF1d83XwdCoyu/LfOjuGa08SF56Lf5X9K+\nNGzgU/g0tir8GjI+Y0cGl9GYmOjVhN60F669jhvyhDTpDSE1dvoHhrwuRT+tbk5X\nvHR6irx0W/+0y87Qc0SnQBlLwm4HpRWTe8aSwY1huc/Y8Drj9akOh5Z8FJJC2imk\nQrzDu4lFeiAjUgyV2lhuWymNIlVeSd7E4vEMOjtpYH7NakFhgNyklDqobZYCZpFZ\nm23v5HU8llg17mOLpopAWGMHBeHsqhYibk3G6AYPhIk/By3Zl0U/F005nGNrduJJ\nv2rd67lZAgMBAAECgf9KDSfMql9yTLPGwB0GAOEJE+/naYD6YhnULGmki/IPndHI\nD/tulUzGGMn+f3omg24oukeDRJvZvvLaEv7lEUv8v5Op00umsjxJMD6eOMO80QTu\nd1tskrArGF2Hg5Zz92xw/3oM1IOihR0CKluBZqKW/PllACSHVNNeyFimcUSSCB01\nACIFb57ubd9jmfYCHXnDSQdZRT8kuXaOboZ54OcVYhZfaiU2uj3vj8ZyS2PG39jm\nOmeRpDZGf+YWHB41SvvFQwWR1irzQ1G4awCwBHdoa4W8dlh+tcwHPJqaVMb3HCk8\nWlbmMZMQhRaSE4CeUel2WXt3Zu1E9uhNKYmPpYECgYEA86c8ZKsoDoO0MUwLrYNa\nGhFQDv1VoWlif3Ljn7ki4PhdhgUzhh0MTxH0yTZtgubUBN/yhoVxhwBXwuKCLEQx\nqt3Kbxpe65LXSqxVr6gkJn57DZvQqc1F28YWrMONGYGxvBr6ZMIQngRkXy8W3f+2\njF4aPuaoS8u8HqtwSvFSw4ECgYEAwuCVxxTTD4g3KROVt5P4y02MYDuEkoNWNfXw\nmSZjhxrS6WsHan6M0R5GVKFBSUK42pC9JMyXXk+qefRHD9SVXhNm27xU1BabpXqw\nXUW3yBgJuXXw2oQbspOi9Zh7EPAAR6FaDH8s1ysjHxYaFSEvOwq0WZzRgLRaNC9o\nDbpAgdkCgYBqsnJc9yKccIpJCC8Y9atQPQKc/c0w2PBcNVh+ilk+wSRbWw28Dh5k\nxc03C9GbADAaTmNrCyay4rCL1BsC/X3ugB901cx5Rp1mwt7nBC+Id9y1EeWnZg/Q\ndQda8mtonwXRBNNfqigSuoOltv5BiwhKoa7GmsVaI8ame5a6CsGegQKBgD8dD0UH\nmId6PSsffaiT0sq9Fc6A2CG/SWd2fHKNPUSfSllwYVl7HM4JOQvlochBRK78m1VU\nsV1I/dQ7adxVo/5w2CooJ2z82XHRd1bt4mR6bIPVD6klifbe27MgrBLDN8P7HLfZ\nZENXZCuIM/BN7Ab6I4i2Qh+lyWUHSXLQtF2ZAoGAPzJtUNV0j0gAiKv0T6Zl9tzf\nebQn3FwhC1JCWuZj3i2YKboSWW/P67HZTHU0pUVWkdL1TFyFXeshI807ah5980G6\nYfmFSXIB1hDHv60WEDvyMU/zA4y64mCOPht0genVN5RLVRkfEhdAVVu+WfN3YTFf\nrH2CeEEMikMTvo/jHKU=\n-----END PRIVATE KEY-----\n",
-                "client_email": "testteam@acoustic-mix-331213.iam.gserviceaccount.com",
-                "client_id": "103380036233115407551",
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://oauth2.googleapis.com/token",
-                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/testteam%40acoustic-mix-331213.iam.gserviceaccount.com"
+                "type": st.secrets["s_type"],
+                "project_id": st.secrets["s_project_id"],
+                "private_key_id": st.secrets["s_private_key_id"],
+                "private_key": st.secrets["s_private_key"],
+                "client_email": st.secrets["s_client_email"],
+                "client_id": st.secrets["s_client_id"],
+                "auth_uri": st.secrets["s_auth_uri"],
+                "token_uri": st.secrets["s_token_uri"],
+                "auth_provider_x509_cert_url": st.secrets["s_auth_provider_x509_cert_url"],
+                "client_x509_cert_url": st.secrets["s_client_x509_cert_url"]
             }
 
-            # credentials_2 = {
-            #    "type": st.secrets["s_type"],
-            #    "project_id": st.secrets["s_project_id"],
-            #    "private_key_id": st.secrets["s_private_key_id"],
-            #    "private_key": st.secrets["s_private_key"],
-            #    "client_email": st.secrets["s_client_email"],
-            #    "client_id": st.secrets["s_client_id"],
-            #    "auth_uri": st.secrets["s_auth_uri"],
-            #    "token_uri": st.secrets["s_token_uri"],
-            #    "auth_provider_x509_cert_url": st.secrets["s_auth_provider_x509_cert_url"],
-            #    "client_x509_cert_url": st.secrets["s_client_x509_cert_url"]
-            # }
-
             gc = gspread.service_account_from_dict(credentials)
-            sh = gc.open("test_beta")
+            sh = gc.open("Resultats_questionnaire")
             worksheet = sh.sheet1
             worksheet.insert_row(st.session_state.user_data, 1)
 
@@ -563,10 +587,10 @@ elif st.session_state.menu == 2:
 
     # http://metadataconsulting.blogspot.com/2019/03/OneDrive-2019-Direct-File-Download-URL-Maker.html
 
-    st.write("Cette seconde partie de l'étude, à effectuer sur un ordinateur, est constituée d'une série de cas pratiques sous Excel. Appuyez sur [ce lien] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21238264&authkey=AKIZIoQJtLkFOKQ&em=2) pour télécharger le fichier Excel.")
-    st.write("_Attention : bien penser à enregistrer le fichier téléchargé afin de pouvoir le renvoyer ensuite._")
+    st.write("Cette seconde partie de l'étude, à effectuer sur un tableur, est constituée d'une série de cas pratiques sous Excel. [Appuyez sur ce lien] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21238264&authkey=AKIZIoQJtLkFOKQ&em=2) pour télécharger le fichier Excel.")
+    st.write("_Attention : bien penser à enregistrer le fichier téléchargé avant de pouvoir le renvoyer ensuite._")
 
-    st.markdown("Une fois terminé, merci de retourner le cas pratique par mail à l'adresse <a href='mailto:etude.provisionnement@gmail.com'>etude.provisionnement@gmail.com</a>.", unsafe_allow_html=True)
+    st.markdown("Une fois terminé, merci de retourner le cas pratique par mail à l'adresse suivante : <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
 
     st.write("Merci pour votre participation !")
 
