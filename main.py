@@ -372,7 +372,7 @@ elif st.session_state.menu == 1:
 
         with st.form(key="gambler"):
             st.write("La probabilité moyenne d'avoir un accident non-responsable pour les individus en portefeuille est estimée à 2%. Les assurés A et B ont le même profil de risque et les mêmes pratiques de conduite. ")
-            st.write("L’année dernière, l’individu A a eu 4 accidents auto non responsables. L’individu B n’a jamais eu d’accident")
+            st.write("L’année dernière, l’individu A a eu 4 accidents auto non responsables tandis que B n'en a pas eu.")
             accident = st.text_input("Qui est le plus susceptible d'avoir un nouvel accident le premier ?")
             sb_gambler = st.form_submit_button(label="Page suivante")
 
