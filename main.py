@@ -246,7 +246,7 @@ elif st.session_state.menu == 1:
         else:
             with st.form(key="montant_prime"):
                 slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
-                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 210.0, 350.0, 300.0)
+                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 300.0)
                 sb_montant_prime = st.form_submit_button(label="Page suivante")
 
         if sb_montant_prime:
@@ -317,7 +317,7 @@ elif st.session_state.menu == 1:
             with col2:
                 st.write(dataframe_bas)
 
-            st.write("A votre avis, à combien devrait s'élèver la charge de sinistre pour l'année 2018 ? (en millions)")
+            st.write("A votre avis, à combien devrait s'élèver la charge de sinistre pour l'année 2018 ? Et pour l'année 2022 (en millions)")
 
             with st.form(key="retour_moyenne_1"):
                 slider_retour_moyenne = st.slider("Charge sinistre en 2018 ? ", 0.0, 110.0, 55.0)
@@ -354,15 +354,17 @@ elif st.session_state.menu == 1:
             with col2:
                 st.write(dataframe_haut)
 
-            st.write("Selon vous, à combien devrait s'élever la charge de sinistre pour l'année 2018 ? (en millions)")
+            st.write("Selon vous, à combien devrait s'élever la charge de sinistre pour l'année 2018 ? Et pour l'année 2022 (en millions)")
 
             with st.form(key="retour_moyenne_1"):
                 slider_retour_moyenne = st.slider("Charge sinistre en 2018", 60.0, 160.0, 110.0)
+                slider_retour_moyenne_2 = st.slider("Charge sinistre en 2022 ? ", 0.0, 220.0, 110.0)
                 sb_retour_moyenne = st.form_submit_button(label="Page suivante")
 
         if sb_retour_moyenne:
             st.session_state.user_data.append("Valeur retour moyenne")
             st.session_state.user_data.append(slider_retour_moyenne)
+            st.session_state.user_data.append(slider_retour_moyenne_2)
             st.session_state.page += 1
             st.experimental_rerun()
 
@@ -473,7 +475,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Biais de disponibilité
-    elif st.session_state.page == 8:
+    elif st.session_state.page == 801:
 
         st.header("Marché assurantiel")
 
@@ -502,9 +504,9 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Maladie Kahneman
-    elif st.session_state.page == 9:
+    elif st.session_state.page == 8:
 
-        st.header("Approche du risque")
+        st.header("Attitude face au risque")
 
         if st.session_state.alea < 0.5:
             with st.form(key="test_framing_kahneman"):
@@ -528,7 +530,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Remarques
-    elif st.session_state.page == 10:
+    elif st.session_state.page == 9:
 
         with st.form(key='my_form_end'):
             retour_utilisateur = st.text_input(label='Vous pouvez noter ici des remarques éventuelles')
