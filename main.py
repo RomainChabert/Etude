@@ -33,7 +33,7 @@ if 'menu' not in st.session_state:
 
     gc = gspread.service_account_from_dict(credentials)
     sh = gc.open("Ouvertures")
-    worksheet = sh.user_time
+    worksheet = sh.sheet1
     worksheet.insert_row([temps_fin], 1)
 
 # Début de l'étude
