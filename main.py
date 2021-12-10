@@ -239,13 +239,13 @@ elif st.session_state.menu == 1:
 
         if st.session_state.alea2 < 0.5:
             with st.form(key="montant_prime"):
-                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 210.0, 350.0, 260.0)
-                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 160.0, 340.0, 250.0)
+                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 240.0)
+                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 240.0)
                 sb_montant_prime = st.form_submit_button(label="Page suivante")
 
         else:
             with st.form(key="montant_prime"):
-                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 210.0, 350.0, 260.0)
+                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
                 slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 210.0, 350.0, 300.0)
                 sb_montant_prime = st.form_submit_button(label="Page suivante")
 
@@ -307,7 +307,7 @@ elif st.session_state.menu == 1:
             # Put the five layers into a chart and bind the data
             graphe_bas_rouge = alt.layer(line_bas_rouge, selectors, points_bas_rouge, text_bas_rouge, rules)
 
-            st.write("On dispose des données relatives à la charge de sinistre de la LoB 'MALUS' d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
+            st.write("On dispose des données relatives à la charge de sinistre de la LoB MRH d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
             st.markdown("Aucune évolution notable n'est à relever pour ce qui est du profil de risque du portefeuille.")
 
             col1, col2 = st.columns(2)
@@ -320,7 +320,8 @@ elif st.session_state.menu == 1:
             st.write("A votre avis, à combien devrait s'élèver la charge de sinistre pour l'année 2018 ? (en millions)")
 
             with st.form(key="retour_moyenne_1"):
-                slider_retour_moyenne = st.slider("Charge sinistre en 2018", 0.0, 110.0, 55.0)
+                slider_retour_moyenne = st.slider("Charge sinistre en 2018 ? ", 0.0, 110.0, 55.0)
+                slider_retour_moyenne_2 = st.slider("Charge sinistre en 2022 ? ", 0.0, 110.0, 55.0)
                 sb_retour_moyenne = st.form_submit_button(label="Page suivante")
 
         else:
@@ -343,7 +344,7 @@ elif st.session_state.menu == 1:
             # Put the five layers into a chart and bind the data
             graphe_haut_vert = alt.layer(line_haut_vert, selectors, points_haut_vert, rules, text_haut_vert)
 
-            st.write("On dispose des données relatives à la charge de sinistre de la LoB 'MALUS' d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
+            st.write("On dispose des données relatives à la charge de sinistre de la LoB auto d'une compagnie d'assurance entre 2002 et 2017 (en millions d'euros).")
             st.markdown("Aucune évolution notable n'est à relever pour ce qui est du profil de risque du portefeuille.")
 
             col1, col2 = st.columns(2)
@@ -399,14 +400,14 @@ elif st.session_state.menu == 1:
 
         if st.session_state.alea < 0.5:
             with st.form(key="marche_MRH"):
-                st.write("Selon vous, le ratio combiné du secteur de l'assurance multirisque habitation en France en 2020 (après réassurance) était-il supérieur ou inférieur à 62% ?")
+                st.write("Selon vous, le ratio combiné du secteur de l'assurance multirisque habitation en France en 2020 était-il supérieur ou inférieur à 62% ?")
                 ancre_MRH = st.selectbox(" ", ["-", "Supérieur", "Inférieur"])
                 sb_position_ancre = st.form_submit_button(label="Page suivante")
 
         else:
 
             with st.form(key="marche_MRH"):
-                st.write("Selon vous, le ratio combiné comptable du secteur de l'assurance multirisque habitation en France en 2020 (après réassurance) était-il supérieur ou inférieur à 124% ?")
+                st.write("Selon vous, le ratio combiné du secteur de l'assurance multirisque habitation en France en 2020 était-il supérieur ou inférieur à 124% ?")
                 ancre_MRH = st.selectbox(" ", ["-", "Supérieur", "Inférieur"])
                 sb_position_ancre = st.form_submit_button(label="Page suivante")
 
@@ -441,7 +442,7 @@ elif st.session_state.menu == 1:
 
             st.session_state.page += 1
 
-            st.session_state.user_data.append("Ratio S/P MRH en 2020")
+            st.session_state.user_data.append("Ratio combiné MRH en 2020")
             st.session_state.user_data.append(marche_MRH)
 
             st.session_state.alea = random.uniform(0, 1)
