@@ -15,8 +15,11 @@ if 'menu' not in st.session_state:
     from datetime import date
     import gspread
 
-    ouverture = datetime.now()
-    temps_fin = ouverture.strftime("%H:%M:%S")
+    date_ouverture = date.today()
+    date_ouverture2 = date_ouverture.strftime("%d/%m/%Y")
+
+    heure_ouverture = datetime.now()
+    heure_ouverture2 = heure_ouverture.strftime("%H:%M:%S")
 
     credentials = {
         "type": st.secrets["s_type"],
@@ -34,7 +37,7 @@ if 'menu' not in st.session_state:
     gc = gspread.service_account_from_dict(credentials)
     sh = gc.open("Ouvertures")
     worksheet = sh.sheet1
-    worksheet.insert_row([temps_fin], 1)
+    worksheet.insert_row([date_ouverture2, heure_ouverture2], 1)
 
 # Début de l'étude
 
