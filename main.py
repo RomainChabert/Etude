@@ -8,7 +8,33 @@ import pandas as pd
 st.title("Etude sur le provisionnement en assurance non-vie")
 
 if 'menu' not in st.session_state:
+
     st.session_state.menu = 0   # 0 menu, 1 questionnaire, 2 cas pratique
+
+    from datetime import datetime
+    from datetime import date
+    import gspread
+
+    ouverture = datetime.now()
+    temps_fin = ouverture.strftime("%H:%M:%S")
+
+    credentials = {
+        "type": st.secrets["s_type"],
+        "project_id": st.secrets["s_project_id"],
+        "private_key_id": st.secrets["s_private_key_id"],
+        "private_key": st.secrets["s_private_key"],
+        "client_email": st.secrets["s_client_email"],
+        "client_id": st.secrets["s_client_id"],
+        "auth_uri": st.secrets["s_auth_uri"],
+        "token_uri": st.secrets["s_token_uri"],
+        "auth_provider_x509_cert_url": st.secrets["s_auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets["s_client_x509_cert_url"]
+    }
+
+    gc = gspread.service_account_from_dict(credentials)
+    sh = gc.open("Ouvertures")
+    worksheet = sh.sheet1
+    worksheet.insert_row(ouverture, 1)
 
 # Début de l'étude
 
