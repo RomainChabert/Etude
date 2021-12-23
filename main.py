@@ -39,6 +39,9 @@ if 'menu' not in st.session_state:
     worksheet = sh.sheet1
     worksheet.insert_row([date_ouverture2, heure_ouverture2], 1)
 
+if st.session_state.menu == -1:
+    st.write("Dans le cadre de cette étude des données personnelles relatives à votre travail pourraient éventuellement être enregistrées. Consentez-vous au recueil de ces données personnelles et à leur traitement ?")
+
 # Début de l'étude
 
 if st.session_state.menu == 0:
@@ -478,13 +481,13 @@ elif st.session_state.menu == 1:
             st.session_state.alea = random.uniform(0, 1)
             st.session_state.user_data.append(st.session_state.alea)
             if st.session_state.alea < 0.5:
-                st.session_state.user_data.append("Comparaison auto - terrorisme")
+                st.session_state.user_data.append("Framing positif")
             else:
-                st.session_state.user_data.append("Comparaison auto - ")
+                st.session_state.user_data.append("Framing négatif")
 
             st.experimental_rerun()
 
-    # Intervalle de confiance S/P auto
+    # Intervalle de confiance S/P auto / Biais de disponibilité auto / terrorisme
     elif st.session_state.page == 800:
 
         st.header("Marché assurantiel")
@@ -618,7 +621,7 @@ elif st.session_state.menu == 2:
 
     # http://metadataconsulting.blogspot.com/2019/03/OneDrive-2019-Direct-File-Download-URL-Maker.html
 
-    st.write("Cette seconde partie de l'étude, à effectuer sur un tableur, est constituée d'une série de cas pratiques sous Excel. [Appuyez sur ce lien] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21261243&authkey=AIYTfMbO53hkK5o&em=2) pour télécharger le fichier Excel.")
+    st.write("Cette seconde partie de l'étude, à effectuer sur un tableur, est constituée d'une série de cas pratiques sous Excel. [Appuyez sur ce lien] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21261323&authkey=AOt1_ZcXdHJMvFc&em=2) pour télécharger le fichier Excel.")
     st.write("Il s'agit d'un fichier au format .xlsm : il convient donc d'activer les macros afin de pouvoir l'utiliser. Il y aura à cet effet un bandeau jaune avec un bouton 'Activer les macros' en haut de l'écran.")
     st.write("_Attention : bien penser à enregistrer le fichier téléchargé avant de pouvoir le renvoyer ensuite._")
 
