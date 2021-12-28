@@ -609,7 +609,7 @@ elif st.session_state.menu == 1:
         st.write(" ")
         st.write("La seconde partie de l'étude consiste en une série de cas pratiques à effectuer sur un tableur, accessibles depuis le bouton ci-dessous:")
 
-        retour_cas_pratique = st.button("Accéder aux cas pratiques")
+        retour_cas_pratique = st.button("Passer aux cas pratiques")
         retour_menu = st.button("Retourner au menu")
 
         if retour_menu:
