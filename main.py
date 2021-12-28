@@ -605,12 +605,19 @@ elif st.session_state.menu == 1:
 
         st.write("Vos résultats ont bien été pris en compte.")
         st.write("Merci pour votre participation !")
-        st.markdown("Pour toute remarque ou commentaire complémentaire, n'hésitez pas à contacter Romain Chabert à l'adresse <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
+        st.markdown("Pour toute remarque ou commentaire relatifs au questionnaire n'hésitez pas à contacter Romain Chabert à l'adresse <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
+        st.write(" ")
+        st.write("La seconde partie de l'étude consiste en une série de cas pratiques à effectuer sur un tableur, accessibles depuis le bouton ci-dessous:")
 
+        retour_cas_pratique = st.button("Accéder aux cas pratiques")
         retour_menu = st.button("Retourner au menu")
 
         if retour_menu:
             st.session_state.menu = 0
+            st.experimental_rerun()
+
+        elif retour_cas_pratique:
+            st.session_state.menu = 2
             st.experimental_rerun()
 
     # my_bar.empty()
