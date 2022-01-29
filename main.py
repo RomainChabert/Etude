@@ -1274,7 +1274,7 @@ elif st.session_state.menu == 12:
 
     # http://metadataconsulting.blogspot.com/2019/03/OneDrive-2019-Direct-File-Download-URL-Maker.html
 
-    st.write("This second part of the study, to be carried out on a spreadsheet, consists of a series of practical cases in Excel. [Click on this link] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21261613&authkey=AAs-yxVH6w6gP-M&em=2) to download the Excel file.")
+    st.write("This second part of the study, to be carried out on a spreadsheet, consists of a series of practical cases in Excel. [Click on this link] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21261698&authkey=AK9_x5Eyjh_EZQI&em=2) to download the Excel file.")
     st.write("It is an .xlsm file: it is therefore necessary to activate the macros in order to use it. There will be a yellow banner with a button 'Activate macros' at the top of the screen.")
     st.write("_Warning: remember to save the downloaded file before sending it back._")
 
