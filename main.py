@@ -49,7 +49,7 @@ if st.session_state.menu == -1:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.write("Sélectionnez le bouton ci-contre afin d'accéder à l'étude en français")
+        st.write("Sélectionnez le bouton ci-contre afin d'accéder à l'étude en français.")
     with col2:
         st.session_state.cas_francais = st.button("Français")
 
@@ -58,7 +58,7 @@ if st.session_state.menu == -1:
 
     col3, col4 = st.columns(2)
     with col3:
-        st.write("In order to proceed in english, please select the button on the right")
+        st.write("In order to proceed in english, please select the button on the right.")
     with col4:
         st.session_state.cas_anglais = st.button("English")
 
@@ -156,8 +156,8 @@ elif st.session_state.menu == 1:
             mail_utilisateur = st.text_input("Adresse e-mail", '@')
             sexe = st.selectbox('Sexe', ["-", "Homme", "Femme", "Non précisé"])
             age = st.selectbox('Âge', ["-", "18-25", "26-35", "36-50", "51 et plus"])
-            type_entreprise = st.selectbox("Type d'entreprise", ["-", "Étudiant", "Compagnie d'assurance", "Mutuelle", "Bancassureur", " Cabinet de conseil", "Autre"])
-            seniorite = st.selectbox("Séniorité en actuariat", ["-", "Étudiant", "0-2 ans", "2-5 ans", "5-8 ans", "8-15 ans", "15 ans et plus"])
+            type_entreprise = st.selectbox("Type d'entreprise", ["-", "Étudiant", "Compagnie d'assurance", "Mutuelle", "Bancassureur", " Cabinet de conseil","Réassureur", "Autre"])
+            seniorite = st.selectbox("Séniorité en actuariat", ["-", "Étudiant", "0-2 ans", "3-5 ans", "6-8 ans", "9-15 ans", "16 ans et plus"])
             submit_button_1 = st.form_submit_button(label='Page suivante')
 
         if submit_button_1:
