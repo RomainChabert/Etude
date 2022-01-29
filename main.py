@@ -152,7 +152,7 @@ elif st.session_state.menu == 1:
         with st.form(key='bloc_1'):
             mail_utilisateur = st.text_input("Adresse e-mail", '@')
             sexe = st.selectbox('Sexe', ["-", "Homme", "Femme", "Non précisé"])
-            age = st.selectbox('Âge', ["-", "18-25", "26-35", "35-50", "51 et plus"])
+            age = st.selectbox('Âge', ["-", "18-25", "26-35", "36-50", "51 et plus"])
             type_entreprise = st.selectbox("Type d'entreprise", ["-", "Étudiant", "Compagnie d'assurance", "Mutuelle", "Bancassureur", " Cabinet de conseil", "Autre"])
             seniorite = st.selectbox("Séniorité en actuariat", ["-", "Étudiant", "0-2 ans", "2-5 ans", "5-8 ans", "8-15 ans", "15 ans et plus"])
             submit_button_1 = st.form_submit_button(label='Page suivante')
@@ -672,6 +672,617 @@ elif st.session_state.menu == 2:
     st.write("Merci pour votre participation !")
 
     st.session_state.retour_menu_CP = st.button("Retour")
+
+    if st.session_state.retour_menu_CP:
+        st.session_state.menu = 0
+        st.experimental_rerun()
+
+if st.session_state.menu == 10:
+
+    st.title("Study on P&C reserving")
+
+    st.write("This study, conducted as part of an actuarial research thesis, aims to obtain a better understanding of actuarial practices in non-life insurance reserving.")
+    st.write("Actuarial professionals and students are invited to respond.")
+    st.markdown("The study consists of two independent parts:")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("- An online questionnaire _(~ 5 minutes)_")
+
+    with col2:
+        st.session_state.questionnaire = st.button("Questionnaire")
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.write("- A case study in Excel _(~ 30 minutes)_")
+
+    with col4:
+        st.session_state.cas_pratique = st.button("Case study")
+
+    st.markdown("**Thank you in advance for your participation!**")
+
+    st.markdown("For any remark or comment, feel free to contact Romain Chabert at <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
+
+    st.session_state.changer_langue = st.button("Change language")
+
+    if st.session_state.changer_langue:
+        st.session_state.menu = -1
+        st.experimental_rerun()
+
+    if st.session_state.questionnaire:
+        st.session_state.menu = 11
+        st.session_state.page = 0
+        st.experimental_rerun()
+
+    if st.session_state.cas_pratique:
+        st.session_state.menu = 12
+        st.experimental_rerun()
+
+elif st.session_state.menu == 11:
+
+    st.title("Study on P&C reserving")
+
+    if st.session_state.page == 0:
+
+        st.write("This questionnaire consists of about ten questions, for which you will be asked to select one or more answers, to write them down or to select them on a scale.")
+        st.write("The results of the questionnaire are anonymous and personal information is used for descriptive statistics only.")
+        st.markdown("_Please note: once the questionnaire has been started, it is not possible to go back._")
+        st.session_state.deb_questionnaire = st.button("Begin the questionnaire")
+        st.session_state.retour_menu = st.button("Back")
+
+        if st.session_state.deb_questionnaire:
+            st.session_state.page = 1
+            st.experimental_rerun()
+
+        if st.session_state.retour_menu:
+            st.session_state.menu = 0
+            st.experimental_rerun()
+
+    # Profil de l'individu
+    elif st.session_state.page == 1:
+
+        st.session_state.user_data = []
+
+        from datetime import datetime
+        from datetime import date
+
+        date_deb = date.today()
+        date_deb2 = date_deb.strftime("%d/%m/%Y")
+        st.session_state.user_data.append(date_deb2)
+
+        now = datetime.now()
+        temps_debut = now.strftime("%H:%M:%S")
+        st.session_state.user_data.append(temps_debut)
+
+        st.header("General information")
+        st.write("This first group of questions aims at specifying your profile")
+
+        with st.form(key='bloc_1'):
+            mail_utilisateur = st.text_input("E-mail address", '@')
+            sexe = st.selectbox('Gender', ["-", "Male", "Female", "Unspecified"])
+            age = st.selectbox('Age', ["-", "18-25", "26-35", "36-50", "51 and more"])
+            type_entreprise = st.selectbox("Type of company", ["-", "Student", "Insurance company", "Mutuelle", "Bank insurer", "Consulting firm", "Reinsurer", "Other"])
+            seniorite = st.selectbox("Actuarial seniority", ["-", "Student", "0-2 ans", "3-5 ans", "6-8 ans", "9-15 ans", "16 ans et plus"])
+            submit_button_1 = st.form_submit_button(label='Next page')
+
+        if submit_button_1:
+
+            if mail_utilisateur == "@" or mail_utilisateur == "":
+                st.warning("Please fill in your e-mail address")
+
+            else:
+                st.session_state.page += 1
+
+                st.session_state.user_data.append("BLOC")
+                st.session_state.user_data.append("Adresse mail")
+                st.session_state.user_data.append(mail_utilisateur)
+                st.session_state.user_data.append("Sexe")
+                st.session_state.user_data.append(sexe)
+                st.session_state.user_data.append("Age")
+                st.session_state.user_data.append(age)
+                st.session_state.user_data.append("Type d'entreprise")
+                st.session_state.user_data.append(type_entreprise)
+                st.session_state.user_data.append("Séniorité")
+                st.session_state.user_data.append(seniorite)
+
+                st.experimental_rerun()
+
+    # Méthodes de provisionnement
+    elif st.session_state.page == 2:
+
+        st.header("Reserving")
+
+        with st.form(key='methode_provisionnement'):
+            provisionnement = st.selectbox('Do you work or have you ever worked on reserving issues?', ["-", "Yes", "No"])
+            methode_connue = st.multiselect(
+                "What reserving methods have you heard of? (several answers possible)",
+                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"])  # 6 méthodes
+            methode_utilisee = st.multiselect(
+                "What methods have you used regularly in a professional setting? (several answers possible)",
+                ["Chain Ladder", "London Chain", "Loss ratio", "Mack", "GLM", "Bornhuetter Ferguson"])  # 6 méthodes
+            sb_methode_provisionnement = st.form_submit_button(label="Next page")
+
+        if sb_methode_provisionnement:
+
+            st.session_state.page += 1
+
+            while len(methode_connue) < 6:
+                methode_connue.append("")
+            while len(methode_utilisee) < 6:
+                methode_utilisee.append("")
+
+            st.session_state.user_data.append("BLOC")
+
+            st.session_state.user_data.append("Expérience provisionnement")
+            st.session_state.user_data.append(provisionnement)
+
+            st.session_state.user_data.append("Méthodes connues")
+            st.session_state.user_data.extend(methode_connue)
+
+            st.session_state.user_data.append("Méthodes utilisees")
+            st.session_state.user_data.extend(methode_utilisee)
+
+            st.session_state.user_data.append("BLOC")
+
+            # GROUPE QUESTION SUIVANTE
+            st.session_state.alea = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea)
+            if st.session_state.alea < 0.5:
+                st.session_state.user_data.append("Courbe verte")
+            else:
+                st.session_state.user_data.append("Courbe rouge")
+
+            st.session_state.alea2 = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea2)
+            if st.session_state.alea2 < 0.5:
+                st.session_state.user_data.append("Ancre basse")
+            else:
+                st.session_state.user_data.append("Ancre haute")
+
+            # GROUPE QUESTION SUIVANTE
+
+            st.experimental_rerun()
+
+    # Evolution du montant de primes (framing)
+    elif st.session_state.page == 3:
+
+        st.header("Evolution of the premium amount")
+
+        annee_evol_primes = [1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010]
+        valeur_evol_primes = [252.32, 245.46, 243.89, 247.74, 249.43, 244.71, 257.31, 249.67, 252.28, 256.69, 254.42,
+                              256.13, 262.21]
+        data_evol_primes = {"Annee": annee_evol_primes, "Montant de prime": valeur_evol_primes}
+        dataframe_evol_primes = pd.DataFrame(data_evol_primes)
+
+        nearest_prime = alt.selection(type='single', nearest=True, on='mouseover',
+                                      fields=['Annee'], empty='none')
+
+        if st.session_state.alea < 0.5:
+            # The basic line
+            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
+                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[240, 266]))
+            )
+        else:
+            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='darkred').encode(
+                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[150, 300]))
+            )
+
+        # Transparent selectors across the chart. This is what tells us the x-value of the cursor
+        selectors_prime = alt.Chart(dataframe_evol_primes).mark_point().encode(
+            x='Annee:T',
+            opacity=alt.value(0),
+        ).add_selection(
+            nearest_prime
+        )
+
+        # Draw points on the line, and highlight based on selection
+        points_prime = line_prime.mark_point().encode(
+            opacity=alt.condition(nearest_prime, alt.value(1), alt.value(0))
+        )
+
+        # Draw text labels near the points, and highlight based on selection
+        text_prime = line_prime.mark_text(color='darkgrey', align='left', dx=-25, dy=20, size=20,
+                                          fontWeight="bold").encode(
+            text=alt.condition(nearest_prime, 'Montant de prime:Q', alt.value(' '), format=".1f")
+        )
+        # Draw a rule at the location of the selection
+        rules_prime = alt.Chart(dataframe_evol_primes).mark_rule(color='gray').encode(
+            x='Annee:T',
+        ).transform_filter(
+            nearest_prime
+        )
+
+        # Put the five layers into a chart and bind the data
+        graphe_prime = alt.layer(
+            line_prime,
+            selectors_prime,
+            points_prime,
+            text_prime,
+            rules_prime
+        )
+
+        st.write("Data are available on the amount of premiums earned between 1998 and 2010 by an insurance company (in millions of euros).")
+        st.write("How much premium do you think was earned the following year (2011)? 5 years later (2015)?")
+
+        # st.altair_chart(line_prime,True)
+        st.altair_chart(graphe_prime, True)
+
+        if st.session_state.alea2 < 0.5:
+            with st.form(key="montant_prime"):
+                slider_prime_un_an = st.slider("Amount of premiums in 2011?", 200.0, 350.0, 240.0)
+                slider_prime_cinq_ans = st.slider("Amount of premiums in 2015?", 200.0, 350.0, 240.0)
+                sb_montant_prime = st.form_submit_button(label="Page suivante")
+
+        else:
+            with st.form(key="montant_prime"):
+                slider_prime_un_an = st.slider("Amount of premiums in 2011?", 200.0, 350.0, 300.0)
+                slider_prime_cinq_ans = st.slider("Amount of premiums in 2015?", 200.0, 350.0, 300.0)
+                sb_montant_prime = st.form_submit_button(label="Page suivante")
+
+        if sb_montant_prime:
+            st.session_state.page += 1
+            st.session_state.user_data.append("Montant de prime à un an")
+            st.session_state.user_data.append(slider_prime_un_an)
+            st.session_state.user_data.append("Montant de prime à cing an")
+            st.session_state.user_data.append(slider_prime_cinq_ans)
+
+            # GROUPE QUESTION SUIVANTE
+            st.session_state.alea = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea)
+            if st.session_state.alea < 0.5:
+                st.session_state.user_data.append("Moyenne basse")
+            else:
+                st.session_state.user_data.append("Moyenne haute")
+            # GROUPE QUESTION SUIVANTE
+
+            st.experimental_rerun()
+
+    # Evolution de la charge sinistre (retour moyenne)
+    elif st.session_state.page == 4:
+
+        Year = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
+        Moyenne_bas = [74.797696, 82.036351, 76.343512, 78.146366, 74.180035, 81.828443, 81.356627, 86.071678, 72.779008, 76.031071, 72.709526, 70.671256, 79.007412, 77.816575, 55.438527]
+        Moyenne_haut = [74.797696, 82.036351, 76.343512, 78.146366, 74.180035, 81.828443, 81.356627, 86.071678, 72.779008, 76.031071, 72.709526, 70.671256, 79.007412, 77.816575, 108.242495]
+
+        data_bas = {"annee": Year, "charge": Moyenne_bas}
+        dataframe_bas = pd.DataFrame(data_bas)
+
+        data_haut = {"annee": Year, "charge": Moyenne_haut}
+        dataframe_haut = pd.DataFrame(data_haut)
+
+        # Create a selection that chooses the nearest point & selects based on x-value
+        nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                                fields=['annee'], empty='none')
+
+        if st.session_state.alea < 0.5:
+
+            # The basic line
+            line_bas_rouge = alt.Chart(dataframe_bas).mark_line(strokeWidth=5, color='crimson').encode(
+                x=alt.X('annee:T', scale=alt.Scale(domain=[982000000000, 1470000000000])),
+                y=alt.Y('charge:Q', scale=alt.Scale(domain=[50, 90]))
+            )
+
+            # Transparent selectors across the chart. This is what tells us the x-value of the cursor
+            selectors = alt.Chart(dataframe_bas).mark_point().encode(x='annee:T', opacity=alt.value(0),).add_selection(nearest)
+
+            # Draw points on the line, and highlight based on selection
+            points_bas_rouge = line_bas_rouge.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+
+            # Draw text labels near the points, and highlight based on selection
+            text_bas_rouge = line_bas_rouge.mark_text(color='darkgrey', align='left', dx=-25, dy=20, size=20, fontWeight="bold").encode(text=alt.condition(nearest, 'charge:Q', alt.value(' '), format=".1f"))
+
+            # Draw a rule at the location of the selection
+            rules = alt.Chart(dataframe_bas).mark_rule(color='gray').encode(x='annee:T',).transform_filter(nearest)
+
+            # Put the five layers into a chart and bind the data
+            graphe_bas_rouge = alt.layer(line_bas_rouge, selectors, points_bas_rouge, text_bas_rouge, rules)
+
+            st.write("Data is available on an insurance company's multi-risk homeowner's claims burden between 2002 and 2016 (in millions of euros).")
+            st.markdown("There were no significant changes in the risk profile of the portfolio.")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.altair_chart(graphe_bas_rouge, True)
+
+            with col2:
+                st.write(dataframe_bas)
+
+            st.write("How much do you think the loss burden is likely to be for the year 2017? And for the year 2021 (in millions)?")
+
+            with st.form(key="retour_moyenne_1"):
+                slider_retour_moyenne = st.slider("Losses in 2017", 0.0, 110.0, 55.0)
+                slider_retour_moyenne_2 = st.slider("Losses in 2021", 0.0, 110.0, 55.0)
+                sb_retour_moyenne = st.form_submit_button(label="Next page")
+
+        else:
+
+            # The basic line
+            line_haut_vert = alt.Chart(dataframe_haut).mark_line(strokeWidth=5, color='mediumseagreen').encode(x=alt.X('annee:T', scale=alt.Scale(domain=[982000000000, 1470000000000])), y=alt.Y('charge:Q', scale=alt.Scale(domain=[65, 115])))
+
+            # Transparent selectors across the chart. This is what tells us the x-value of the cursor
+            selectors = alt.Chart(dataframe_haut).mark_point().encode(x='annee:T', opacity=alt.value(0),).add_selection(nearest)
+
+            # Draw points on the line, and highlight based on selection
+            points_haut_vert = line_haut_vert.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+
+            # Draw text labels near the points, and highlight based on selection
+            text_haut_vert = line_haut_vert.mark_text(color='darkgrey', align='left', dx=-25, dy=35, size=20, fontWeight="bold").encode(text=alt.condition(nearest, 'charge:Q', alt.value(' '), format=".1f"))
+
+            # Draw a rule at the location of the selection
+            rules = alt.Chart(dataframe_haut).mark_rule(color='gray').encode(x='annee:T',).transform_filter(nearest)
+
+            # Put the five layers into a chart and bind the data
+            graphe_haut_vert = alt.layer(line_haut_vert, selectors, points_haut_vert, rules, text_haut_vert)
+
+            st.write("Data is available on an insurance company's multi-risk homeowner's claims burden between 2002 and 2016 (in millions of euros).")
+            st.markdown("There were no significant changes in the risk profile of the portfolio.")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.altair_chart(graphe_haut_vert, True)
+
+            with col2:
+                st.write(dataframe_haut)
+
+            st.write("How much do you think the loss burden is likely to be for the year 2017? And for the year 2021 (in millions)?")
+
+            with st.form(key="retour_moyenne_1"):
+                slider_retour_moyenne = st.slider("Losses in 2017", 60.0, 160.0, 110.0)
+                slider_retour_moyenne_2 = st.slider("Losses in 2021", 0.0, 220.0, 110.0)
+                sb_retour_moyenne = st.form_submit_button(label="Next page")
+
+        if sb_retour_moyenne:
+            st.session_state.user_data.append("Valeur retour moyenne")
+            st.session_state.user_data.append(slider_retour_moyenne)
+            st.session_state.user_data.append(slider_retour_moyenne_2)
+            st.session_state.page += 1
+            st.experimental_rerun()
+
+    # Gambler's fallacy
+    elif st.session_state.page == 5:
+
+        st.header("Risk approach")
+
+        with st.form(key="gambler"):
+            st.write("The average probability of having a not-at-fault accident for the individuals in the portfolio is estimated at 2%. Policyholders A and B have the same risk profile and driving practices.")
+            st.write("Last year, individual A had 4 non-at-fault auto accidents while B had none.")
+            accident = st.text_input("Who is most likely to have another accident first?")
+            sb_gambler = st.form_submit_button(label="Next page")
+
+        if sb_gambler:
+            st.session_state.page += 1
+            st.session_state.user_data.append("Individu accident")
+            st.session_state.user_data.append(accident)
+
+            # GROUPE QUESTION SUIVANTE
+            st.session_state.alea = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea)
+            if st.session_state.alea < 0.5:
+                st.session_state.user_data.append("Ancre : 62%")
+            else:
+                st.session_state.user_data.append("Ancre : 124%")
+            # GROUPE QUESTION SUIVANTE
+
+            st.experimental_rerun()
+
+    # Position par rapport à l'ancre MRH
+    elif st.session_state.page == 6:
+
+        st.header("Insurance market")
+
+        if st.session_state.alea < 0.5:
+            with st.form(key="marche_MRH"):
+                st.write("In your opinion, was the combined ratio of the French multirisk home insurance sector in 2020 above or below 62%?")
+                ancre_MRH = st.selectbox(" ", ["-", "Above", "Below"])
+                sb_position_ancre = st.form_submit_button(label="Next page")
+
+        else:
+
+            with st.form(key="marche_MRH"):
+                st.write("In your opinion, was the combined ratio of the French multirisk home insurance sector in 2020 above or below 124%?")
+                ancre_MRH = st.selectbox(" ", ["-", "Above", "Below"])
+                sb_position_ancre = st.form_submit_button(label="Next page")
+
+        if sb_position_ancre:
+
+            st.session_state.page += 1
+            st.session_state.user_data.append("Position vis à vis de l'ancre")
+            st.session_state.user_data.append(ancre_MRH)
+
+            st.experimental_rerun()
+
+    # Ratio S/P MRH
+    elif st.session_state.page == 7:
+
+        st.header("Insurance market")
+
+        if st.session_state.alea < 0.5:
+
+            with st.form(key="marche_MRH"):
+                st.write("What would you estimate the combined ratio to be?")
+                marche_MRH = st.slider("Combined ratio (2020)", min_value=20, max_value=160, value=62)
+                sb_ancre_MRH = st.form_submit_button(label="Next page")
+
+        else:
+
+            with st.form(key="marche_MRH"):
+                st.write("What would you estimate the combined ratio to be?")
+                marche_MRH = st.slider("Combined ratio (2020)", min_value=20, max_value=160, value=124)
+                sb_ancre_MRH = st.form_submit_button(label="Next page")
+
+        if sb_ancre_MRH:
+
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Ratio combiné MRH en 2020")
+            st.session_state.user_data.append(marche_MRH)
+
+            st.session_state.alea = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea)
+            if st.session_state.alea < 0.5:
+                st.session_state.user_data.append("Framing positif")
+            else:
+                st.session_state.user_data.append("Framing négatif")
+
+            st.experimental_rerun()
+
+    # Intervalle de confiance S/P auto / Biais de disponibilité auto / terrorisme
+    elif st.session_state.page == 800:
+
+        st.header("Marché assurantiel")
+
+        with st.form(key="marche_auto"):
+            st.write("Donnez un intervalle pour le ratio S/P du secteur automobile français en 2019 avec une certitude de 90%")
+            marche_auto = st.slider("Ratio S/P du secteur automobile français", min_value=50, max_value=150, value=(90, 110))
+            sb_SP_marche_auto = st.form_submit_button(label="Page suivante")
+
+        if sb_SP_marche_auto:
+
+            st.session_state.page += 1
+            st.session_state.user_data.append("Ratio S/P du marché automobile en 2020")
+            st.session_state.user_data.extend(marche_auto)
+
+            st.experimental_rerun()
+
+    # Biais de disponibilité
+    elif st.session_state.page == 801:
+
+        st.header("Marché assurantiel")
+
+        with st.form(key="charge_sinistre"):
+            st.write("Selon vous ")
+            st.write("Quel est, selon vous, le nombre d'hôpitaux français visés par une cyberattaque en 2020 ?")
+            st.write("2 : Quel est, selon vous, le nombre  ?")
+            attaque_hopitaux = st.text_input(label="Nombre d'hôpitaux visés par une cyberattque")
+            sb_biais_cognitifs = st.form_submit_button(label="Page suivante")
+
+        if sb_biais_cognitifs:
+
+            st.session_state.page += 1
+            st.session_state.user_data.append("Attaque hopitaux")
+            st.session_state.user_data.extend(attaque_hopitaux)
+
+            # GROUPE QUESTION SUIVANTE
+            st.session_state.alea = random.uniform(0, 1)
+            st.session_state.user_data.append(st.session_state.alea)
+            if st.session_state.alea < 0.5:
+                st.session_state.user_data.append("Framing positif")
+            else:
+                st.session_state.user_data.append("Framing négatif")
+            # GROUPE QUESTION SUIVANTE
+
+            st.experimental_rerun()
+
+    # Maladie Kahneman
+    elif st.session_state.page == 8:
+
+        st.header("Attitude towards risk")
+
+        if st.session_state.alea < 0.5:
+            with st.form(key="test_framing_kahneman"):
+                st.write("France is expecting the arrival of an infectious disease, believed to kill 600 people. Two treatment programs are available to contain the disease:")
+                st.write("- If program A is adopted, 200 people will be saved")
+                st.write("- If program B is adopted, there is a 1/3 chance that 600 people will be saved and a 2/3 chance that no one will be saved")
+                programme = st.selectbox("Which program do you think is better?", ["-", "Program A", "Program B"])
+                sb_framing_kahneman = st.form_submit_button(label="Next page")
+
+        else:
+            with st.form(key="test_framing_kahneman"):
+                st.write("France is expecting the arrival of an infectious disease, believed to kill 600 people. Two treatment programs are available to contain the disease:")
+                st.write("- If program A is adopted, 400 people will die")
+                st.write("- If program B is adopted, there is a 1/3 chance that no one will die and a 2/3 chance that 600 people will die")
+                programme = st.selectbox("Which program do you think is better?", ["-", "Program A", "Program B"])
+                sb_framing_kahneman = st.form_submit_button(label="Next page")
+
+        if sb_framing_kahneman:
+            st.session_state.page += 1
+            st.session_state.user_data.append(programme)
+            st.experimental_rerun()
+
+    # Remarques
+    elif st.session_state.page == 9:
+
+        with st.form(key='my_form_end'):
+            retour_utilisateur = st.text_input(label='You can write down any remarks here')
+            submit_button_end = st.form_submit_button(label="Complete the study and send the results")
+
+        if submit_button_end:
+
+            st.session_state.user_data.append(retour_utilisateur)
+            st.session_state.user_data.append("ANGLAIS") #le questionnaire a été réalisé en anglais
+
+            from datetime import datetime
+            from datetime import date
+            end = datetime.now()
+            temps_fin = end.strftime("%H:%M:%S")
+            st.session_state.user_data.append(temps_fin)
+
+            import gspread
+
+            credentials = {
+                "type": st.secrets["s_type"],
+                "project_id": st.secrets["s_project_id"],
+                "private_key_id": st.secrets["s_private_key_id"],
+                "private_key": st.secrets["s_private_key"],
+                "client_email": st.secrets["s_client_email"],
+                "client_id": st.secrets["s_client_id"],
+                "auth_uri": st.secrets["s_auth_uri"],
+                "token_uri": st.secrets["s_token_uri"],
+                "auth_provider_x509_cert_url": st.secrets["s_auth_provider_x509_cert_url"],
+                "client_x509_cert_url": st.secrets["s_client_x509_cert_url"]
+            }
+
+            gc = gspread.service_account_from_dict(credentials)
+            sh = gc.open("Resultats_questionnaire")
+            worksheet = sh.sheet1
+            worksheet.insert_row(st.session_state.user_data, 1)
+
+            st.session_state.page = 999
+            st.experimental_rerun()
+
+    # Page de fin
+    elif st.session_state.page == 999:
+
+        st.write("Your results have been taken into account.")
+        st.write("Thank you for your participation!")
+        st.markdown("For any remark or comment related to the questionnaire, feel free to contact Romain Chabert at the following e-mail address <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
+        st.write(" ")
+        st.write("The second part of the study consists of a series of practical cases to be performed on a spreadsheet, accessible from the button below:")
+
+        retour_cas_pratique = st.button("Proceed to the practical cases")
+        retour_menu = st.button("Back to the menu")
+
+        if retour_menu:
+            st.session_state.menu = 10
+            st.experimental_rerun()
+
+        elif retour_cas_pratique:
+            st.session_state.menu = 12
+            st.experimental_rerun()
+
+    # my_bar.empty()
+
+elif st.session_state.menu == 12:
+
+    st.title("Study on P&C reserving")
+
+    st.session_state.retour_menu_CP = False
+
+    # http://metadataconsulting.blogspot.com/2019/03/OneDrive-2019-Direct-File-Download-URL-Maker.html
+
+    st.write("This second part of the study, to be carried out on a spreadsheet, consists of a series of practical cases in Excel. [Click on this link] (https://onedrive.live.com/download?cid=E1CA44655646A7B5&resid=E1CA44655646A7B5%21261613&authkey=AAs-yxVH6w6gP-M&em=2) to download the Excel file.")
+    st.write("It is an .xlsm file: it is therefore necessary to activate the macros in order to use it. There will be a yellow banner with a button 'Activate macros' at the top of the screen.")
+    st.write("_Warning: remember to save the downloaded file before sending it back._")
+
+    st.markdown("Once completed, please return the case study by email to the following address: <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
+
+    st.write("Thank you for your participation!")
+
+    st.session_state.retour_menu_CP = st.button("Back")
 
     if st.session_state.retour_menu_CP:
         st.session_state.menu = 0
