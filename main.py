@@ -1,6 +1,7 @@
-st.set_page_config(page_title="Etude / Study", page_icon=":bulb:", layout="centered",
-
 import streamlit as st
+
+st.set_page_config(page_title="Etude / Study", page_icon=":bulb:", layout="centered", initial_sidebar_state="auto", menu_items=None)
+
 import random
 import altair as alt
 import pandas as pd
