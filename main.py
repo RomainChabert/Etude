@@ -5,8 +5,6 @@ import pandas as pd
 
 # https://pythonwife.com/streamlit-interview-questions/
 
-st.title("Etude sur le provisionnement en assurance non-vie")
-
 if 'menu' not in st.session_state:
 
     st.session_state.menu = -1  # -1 langue // FR : 0 menu, 1 questionnaire, 2 cas pratique // EN : 10, 11, 12
@@ -71,6 +69,8 @@ if st.session_state.menu == -1:
 
 if st.session_state.menu == 0:
 
+    st.title("Etude sur le provisionnement en assurance non-vie")
+
     st.write("Cette étude, effectuée dans le cadre d'un mémoire d'actuariat, vise à obtenir une meilleure connaissance des pratiques actuarielles en matière de provisionnement en assurance non-vie.")
     st.write("Professionnels et étudiants dans le domaine de l'actuariat sont invités à y répondre.")
     st.markdown("L'étude est constituée de deux parties indépendantes :")
@@ -95,6 +95,12 @@ if st.session_state.menu == 0:
 
     st.markdown("Pour toute remarque ou commentaire, n'hésitez pas à contacter Romain Chabert à l'adresse <a href='mailto:rchabert@deloitte.fr'>rchabert@deloitte.fr</a>.", unsafe_allow_html=True)
 
+    st.session_state.changer_langue = st.button("Changer de langue")
+
+    if st.session_state.changer_langue:
+        st.session_state.menu = -1
+        st.experimental_rerun()
+
     if st.session_state.questionnaire:
         st.session_state.menu = 1
         st.session_state.page = 0
@@ -105,6 +111,8 @@ if st.session_state.menu == 0:
         st.experimental_rerun()
 
 elif st.session_state.menu == 1:
+
+    st.title("Etude sur le provisionnement en assurance non-vie")
 
     if st.session_state.page == 0:
 
@@ -648,6 +656,8 @@ elif st.session_state.menu == 1:
     # my_bar.empty()
 
 elif st.session_state.menu == 2:
+
+    st.title("Etude sur le provisionnement en assurance non-vie")
 
     st.session_state.retour_menu_CP = False
 
