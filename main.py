@@ -41,7 +41,7 @@ if 'menu' not in st.session_state:
 
 if st.session_state.menu == -1:
 
-    st.subheader("Etude sur le provisionnement en assurance non-vie")
+    st.header("Etude sur le provisionnement en assurance non-vie")
     st.write("Cette étude, effectuée dans le cadre d'un mémoire d'actuariat, vise à obtenir une meilleure connaissance des pratiques actuarielles en matière de provisionnement en assurance non-vie.")
 
     col1, col2 = st.columns(2)
@@ -50,7 +50,7 @@ if st.session_state.menu == -1:
     with col2:
         st.session_state.cas_francais = st.button("Français")
 
-    st.subheader("Study on P&C reserving")
+    st.header("Study on P&C reserving")
     st.write("This study, conducted as part of an actuarial research thesis, aims to obtain a better understanding of actuarial practices in P&C insurance reserving.")
 
     col3, col4 = st.columns(2)
