@@ -737,7 +737,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
         if st.session_state.retour_menu:
-            st.session_state.menu = 0
+            st.session_state.menu = 10
             st.experimental_rerun()
 
     # Profil de l'individu
