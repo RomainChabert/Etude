@@ -1,3 +1,5 @@
+st.set_page_config(page_title="Etude / Study", page_icon=":bulb:", layout="centered",
+
 import streamlit as st
 import random
 import altair as alt
