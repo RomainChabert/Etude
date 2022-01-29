@@ -9,7 +9,7 @@ st.title("Etude sur le provisionnement en assurance non-vie")
 
 if 'menu' not in st.session_state:
 
-    st.session_state.menu = 0   # 0 menu, 1 questionnaire, 2 cas pratique
+    st.session_state.menu = -1  # -1 langue // FR : 0 menu, 1 questionnaire, 2 cas pratique // EN : 10, 11, 12
 
     from datetime import datetime
     from datetime import date
@@ -39,10 +39,35 @@ if 'menu' not in st.session_state:
     worksheet = sh.sheet1
     worksheet.insert_row([date_ouverture2, heure_ouverture2], 1)
 
-if st.session_state.menu == -1:
-    st.write("Dans le cadre de cette étude des données personnelles relatives à votre travail pourraient éventuellement être enregistrées. Consentez-vous au recueil de ces données personnelles et à leur traitement ?")
-
 # Début de l'étude
+
+if st.session_state.menu == -1:
+
+    st.title("Study on P&C reserving")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("Afin d'accéder à l'étude en français, sélectionner le bouton ci-contre")
+
+    with col2:
+        st.session_state.cas_francais = st.button("Français")
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        st.write("In order to proceed in english, please select the button on the right")
+
+    with col4:
+        st.session_state.cas_anglais = st.button("English")
+
+    if st.session_state.cas_francais:
+        st.session_state.menu = 0
+        st.experimental_rerun()
+
+    if st.session_state.cas_anglais:
+        st.session_state.menu = 10
+        st.experimental_rerun()
 
 if st.session_state.menu == 0:
 
