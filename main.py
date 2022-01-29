@@ -696,7 +696,7 @@ if st.session_state.menu == 10:
     col3, col4 = st.columns(2)
 
     with col3:
-        st.write("- A case study in Excel _(~ 30 minutes)_")
+        st.write("- A case study with Excel _(~ 30 minutes)_")
 
     with col4:
         st.session_state.cas_pratique = st.button("Case study")
@@ -1285,5 +1285,5 @@ elif st.session_state.menu == 12:
     st.session_state.retour_menu_CP = st.button("Back")
 
     if st.session_state.retour_menu_CP:
-        st.session_state.menu = 0
+        st.session_state.menu = 10
         st.experimental_rerun()
