@@ -59,6 +59,7 @@ if st.session_state.menu == -1:
     with col4:
         st.session_state.cas_anglais = st.button("English")
 
+
     if st.session_state.cas_francais:
         st.session_state.menu = 0
         st.experimental_rerun()
