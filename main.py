@@ -323,6 +323,39 @@ elif st.session_state.menu == 1:
             st.session_state.user_data.append("Montant de prime à cing an")
             st.session_state.user_data.append(slider_prime_cinq_ans)
 
+            st.experimental_rerun()
+
+    elif st.session_state.page == 4:
+        st.header("Marché de l'assurance")
+
+        with st.form(key="gambler"):
+            st.write("Selon vous, y a-t-il eu en 2020 en France davantage de cambriolages de logements ou de cyberattaques dirigées contre des entreprises ?")
+            estimation_utilisateur = st.selectbox('Estimation', ["-", "Il y a eu proportionnellement davantage de cambriolages de logements", "Il y a eu proportionnellement davantage de cyberattaques d'entreprises"])
+            sb_estimation = st.form_submit_button(label='Page suivante')
+
+        if sb_estimation:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(estimation_utilisateur)
+
+            st.experimental_rerun()
+
+    elif st.session_state.page == 5:
+
+        st.header("Marché assurantiel")
+
+        with st.form(key="Niveau sinistre"):
+            st.write("Si vous deviez estimer le niveau de certitude de votre réponse précédent, comment l'évalueriez vous ? De 0 (absolument incertain) à 100 (absolument certain)")
+            certitude_reponse = st.slider("Certitude de la réponse précédente", min_value=0, max_value=100, value=50)
+            sb_certitude = st.form_submit_button(label="Page suivante")
+
+        if sb_certitude:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(certitude_reponse)
+
             # GROUPE QUESTION SUIVANTE
             st.session_state.alea = random.uniform(0, 1)
             st.session_state.user_data.append(st.session_state.alea)
@@ -335,7 +368,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Evolution de la charge sinistre (retour moyenne)
-    elif st.session_state.page == 4:
+    elif st.session_state.page == 6:
 
         Year = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
         Moyenne_bas = [74.797696, 82.036351, 76.343512, 78.146366, 74.180035, 81.828443, 81.356627, 86.071678, 72.779008, 76.031071, 72.709526, 70.671256, 79.007412, 77.816575, 55.438527]
@@ -436,7 +469,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Gambler's fallacy
-    elif st.session_state.page == 5:
+    elif st.session_state.page == 7:
 
         st.header("Approche du risque")
 
@@ -463,7 +496,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Position par rapport à l'ancre MRH
-    elif st.session_state.page == 6:
+    elif st.session_state.page == 8:
 
         st.header("Marché assurantiel")
 
@@ -489,7 +522,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Ratio S/P MRH
-    elif st.session_state.page == 7:
+    elif st.session_state.page == 9:
 
         st.header("Marché assurantiel")
 
@@ -571,7 +604,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Maladie Kahneman
-    elif st.session_state.page == 8:
+    elif st.session_state.page == 10:
 
         st.header("Attitude face au risque")
 
@@ -597,7 +630,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Remarques
-    elif st.session_state.page == 9:
+    elif st.session_state.page == 11:
 
         with st.form(key='my_form_end'):
             retour_utilisateur = st.text_input(label='Vous pouvez noter ici des remarques éventuelles')
