@@ -975,7 +975,7 @@ elif st.session_state.menu == 11:
         st.header("Insurance market")
 
         with st.form(key="gambler"):
-            st.write("In your opinion, were there more home burglaries or cyber attacks on businesses in France in 2020? ?")
+            st.write("In your opinion, were there more home burglaries or cyber attacks on businesses in France in 2020?")
             estimation_utilisateur = st.selectbox('Estimation', ["-", "There were proportionally more residential burglaries", "There were proportionally more cyber attacks on businesses"])
             sb_estimation = st.form_submit_button(label='Next page')
 
