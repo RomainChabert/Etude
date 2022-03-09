@@ -890,7 +890,7 @@ elif st.session_state.menu == 11:
         annee_evol_primes = [1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010]
         valeur_evol_primes = [252.32, 245.46, 243.89, 247.74, 249.43, 244.71, 257.31, 249.67, 252.28, 256.69, 254.42,
                               256.13, 262.21]
-        data_evol_primes = {"Year": annee_evol_primes, "Montant de prime": valeur_evol_primes}
+        data_evol_primes = {"Year": annee_evol_primes, "Earned premiums": valeur_evol_primes}
         dataframe_evol_primes = pd.DataFrame(data_evol_primes)
 
         nearest_prime = alt.selection(type='single', nearest=True, on='mouseover',
@@ -900,12 +900,12 @@ elif st.session_state.menu == 11:
             # The basic line
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
                 x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
-                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[240, 266]))
+                y=alt.Y('Earned premiums:Q', scale=alt.Scale(domain=[240, 266]))
             )
         else:
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='darkred').encode(
                 x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
-                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[150, 300]))
+                y=alt.Y('Earned premiums:Q', scale=alt.Scale(domain=[150, 300]))
             )
 
         # Transparent selectors across the chart. This is what tells us the x-value of the cursor
@@ -924,7 +924,7 @@ elif st.session_state.menu == 11:
         # Draw text labels near the points, and highlight based on selection
         text_prime = line_prime.mark_text(color='darkgrey', align='left', dx=-25, dy=20, size=20,
                                           fontWeight="bold").encode(
-            text=alt.condition(nearest_prime, 'Montant de prime:Q', alt.value(' '), format=".1f")
+            text=alt.condition(nearest_prime, 'Earned premiums:Q', alt.value(' '), format=".1f")
         )
         # Draw a rule at the location of the selection
         rules_prime = alt.Chart(dataframe_evol_primes).mark_rule(color='gray').encode(
