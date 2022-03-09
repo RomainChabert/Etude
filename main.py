@@ -763,8 +763,8 @@ elif st.session_state.menu == 11:
 
     if st.session_state.page == 0:
 
-        st.write("This questionnaire consists of about ten questions, for which you will be asked to select one or more answers, to write them down or to select them on a scale.")
-        st.write("The results of the questionnaire are anonymous and personal information is used for descriptive statistics only.")
+        st.write("This questionnaire consists of about ten questions, for which you will be asked to either select one or more answers, write them down or select them on a scale.")
+        st.write("The answers of the questionnaire are anonymous and personal information is used for descriptive statistics only.")
         st.markdown("_Please note: once the questionnaire has been started, it is not possible to go back._")
         st.session_state.deb_questionnaire = st.button("Begin the questionnaire")
         st.session_state.retour_menu = st.button("Back")
@@ -801,7 +801,7 @@ elif st.session_state.menu == 11:
             sexe = st.selectbox('Gender', ["-", "Male", "Female", "Unspecified"])
             age = st.selectbox('Age', ["-", "18-25", "26-35", "36-50", "51 and more"])
             type_entreprise = st.selectbox("Type of company", ["-", "Student", "Insurance company", "Mutuelle", "Bank insurer", "Consulting firm", "Reinsurer", "Other"])
-            seniorite = st.selectbox("Actuarial seniority", ["-", "Student", "0-2 ans", "3-5 ans", "6-8 ans", "9-15 ans", "16 ans et plus"])
+            seniorite = st.selectbox("Actuarial seniority", ["-", "Student", "0-2 years", "3-5 years", "6-8 years", "9-15 years", "16 years and more"])
             submit_button_1 = st.form_submit_button(label='Next page')
 
         if submit_button_1:
@@ -890,27 +890,27 @@ elif st.session_state.menu == 11:
         annee_evol_primes = [1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010]
         valeur_evol_primes = [252.32, 245.46, 243.89, 247.74, 249.43, 244.71, 257.31, 249.67, 252.28, 256.69, 254.42,
                               256.13, 262.21]
-        data_evol_primes = {"Annee": annee_evol_primes, "Montant de prime": valeur_evol_primes}
+        data_evol_primes = {"Year": annee_evol_primes, "Montant de prime": valeur_evol_primes}
         dataframe_evol_primes = pd.DataFrame(data_evol_primes)
 
         nearest_prime = alt.selection(type='single', nearest=True, on='mouseover',
-                                      fields=['Annee'], empty='none')
+                                      fields=['Year'], empty='none')
 
         if st.session_state.alea < 0.5:
             # The basic line
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
-                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
                 y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[240, 266]))
             )
         else:
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='darkred').encode(
-                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
                 y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[150, 300]))
             )
 
         # Transparent selectors across the chart. This is what tells us the x-value of the cursor
         selectors_prime = alt.Chart(dataframe_evol_primes).mark_point().encode(
-            x='Annee:T',
+            x='Year:T',
             opacity=alt.value(0),
         ).add_selection(
             nearest_prime
@@ -928,7 +928,7 @@ elif st.session_state.menu == 11:
         )
         # Draw a rule at the location of the selection
         rules_prime = alt.Chart(dataframe_evol_primes).mark_rule(color='gray').encode(
-            x='Annee:T',
+            x='Year:T',
         ).transform_filter(
             nearest_prime
         )
