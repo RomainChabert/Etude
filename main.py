@@ -58,7 +58,7 @@ if st.session_state.menu == -1:
 
     col3, col4 = st.columns(2)
     with col3:
-        st.write("In order to proceed in english, please select the button on the right.")
+        st.write("In order to proceed in English, please select the button on the right.")
     with col4:
         st.session_state.cas_anglais = st.button("English")
 
@@ -1090,7 +1090,7 @@ elif st.session_state.menu == 11:
             # Put the five layers into a chart and bind the data
             graphe_haut_vert = alt.layer(line_haut_vert, selectors, points_haut_vert, rules, text_haut_vert)
 
-            st.write("Data is available on an insurance company's multi-risk homeowner's claims burden between 2002 and 2016 (in millions of euros).")
+            st.write("The available data is the level of claims observed by an insurance company on its individual property insurance product between 2002 and 2016 (in millions of euros)")
             st.markdown("There were no significant changes in the risk profile of the portfolio.")
 
             col1, col2 = st.columns(2)
@@ -1100,11 +1100,11 @@ elif st.session_state.menu == 11:
             with col2:
                 st.write(dataframe_haut)
 
-            st.write("How much do you think the loss burden is likely to be for the year 2017? And for the year 2021 (in millions)?")
+            st.write("How much do you think the level of claims is likely to be for the year 2017? And for the year 2021 (in millions)?")
 
             with st.form(key="retour_moyenne_1"):
-                slider_retour_moyenne = st.slider("Losses in 2017", 60.0, 160.0, 110.0)
-                slider_retour_moyenne_2 = st.slider("Losses in 2021", 0.0, 220.0, 110.0)
+                slider_retour_moyenne = st.slider("Level of claims in 2017", 60.0, 160.0, 110.0)
+                slider_retour_moyenne_2 = st.slider("Level of claims in 2021", 0.0, 220.0, 110.0)
                 sb_retour_moyenne = st.form_submit_button(label="Next page")
 
         if sb_retour_moyenne:
@@ -1120,7 +1120,7 @@ elif st.session_state.menu == 11:
         st.header("Risk approach")
 
         with st.form(key="gambler"):
-            st.write("The average probability of having a not-at-fault accident for the individuals in the portfolio is estimated at 2%. Policyholders A and B have the same risk profile and driving practices.")
+            st.write("The average probability of having a not-at-fault accident for the individuals in the portfolio is estimated at 2%. Policyholders A and B have the same risk profile and driving experience.")
             st.write("Last year, individual A had 4 non-at-fault auto accidents while B had none.")
             accident = st.text_input("Who is most likely to have another accident first?")
             sb_gambler = st.form_submit_button(label="Next page")
