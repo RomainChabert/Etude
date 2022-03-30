@@ -58,7 +58,7 @@ if st.session_state.menu == -1:
 
     col3, col4 = st.columns(2)
     with col3:
-        st.write("In order to proceed in english, please select the button on the right.")
+        st.write("In order to proceed in English, please select the button on the right.")
     with col4:
         st.session_state.cas_anglais = st.button("English")
 
@@ -323,6 +323,40 @@ elif st.session_state.menu == 1:
             st.session_state.user_data.append("Montant de prime à cing an")
             st.session_state.user_data.append(slider_prime_cinq_ans)
 
+            st.experimental_rerun()
+
+    #Estimation de la sinistralité la plus importante
+    elif st.session_state.page == 4:
+        st.header("Marché de l'assurance")
+
+        with st.form(key="gambler"):
+            st.write("Selon vous, y a-t-il eu en 2020 en France davantage de cambriolages de logements ou de cyberattaques dirigées contre des entreprises ?")
+            estimation_utilisateur = st.selectbox('Estimation', ["-", "Il y a eu proportionnellement davantage de cambriolages de logements", "Il y a eu proportionnellement davantage de cyberattaques d'entreprises"])
+            sb_estimation = st.form_submit_button(label='Page suivante')
+
+        if sb_estimation:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(estimation_utilisateur)
+
+            st.experimental_rerun()
+
+    elif st.session_state.page == 5:
+
+        st.header("Marché assurantiel")
+
+        with st.form(key="Niveau sinistre"):
+            st.write("Si vous deviez estimer le niveau de certitude de votre réponse précédent, comment l'évalueriez vous ? De 0 (absolument incertain) à 100 (absolument certain)")
+            certitude_reponse = st.slider("Certitude de la réponse précédente", min_value=0, max_value=100, value=50)
+            sb_certitude = st.form_submit_button(label="Page suivante")
+
+        if sb_certitude:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(certitude_reponse)
+
             # GROUPE QUESTION SUIVANTE
             st.session_state.alea = random.uniform(0, 1)
             st.session_state.user_data.append(st.session_state.alea)
@@ -335,7 +369,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Evolution de la charge sinistre (retour moyenne)
-    elif st.session_state.page == 4:
+    elif st.session_state.page == 6:
 
         Year = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
         Moyenne_bas = [74.797696, 82.036351, 76.343512, 78.146366, 74.180035, 81.828443, 81.356627, 86.071678, 72.779008, 76.031071, 72.709526, 70.671256, 79.007412, 77.816575, 55.438527]
@@ -436,7 +470,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Gambler's fallacy
-    elif st.session_state.page == 5:
+    elif st.session_state.page == 7:
 
         st.header("Approche du risque")
 
@@ -463,7 +497,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Position par rapport à l'ancre MRH
-    elif st.session_state.page == 6:
+    elif st.session_state.page == 8:
 
         st.header("Marché assurantiel")
 
@@ -489,7 +523,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Ratio S/P MRH
-    elif st.session_state.page == 7:
+    elif st.session_state.page == 9:
 
         st.header("Marché assurantiel")
 
@@ -571,7 +605,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Maladie Kahneman
-    elif st.session_state.page == 8:
+    elif st.session_state.page == 10:
 
         st.header("Attitude face au risque")
 
@@ -597,7 +631,7 @@ elif st.session_state.menu == 1:
             st.experimental_rerun()
 
     # Remarques
-    elif st.session_state.page == 9:
+    elif st.session_state.page == 11:
 
         with st.form(key='my_form_end'):
             retour_utilisateur = st.text_input(label='Vous pouvez noter ici des remarques éventuelles')
@@ -729,8 +763,8 @@ elif st.session_state.menu == 11:
 
     if st.session_state.page == 0:
 
-        st.write("This questionnaire consists of about ten questions, for which you will be asked to select one or more answers, to write them down or to select them on a scale.")
-        st.write("The results of the questionnaire are anonymous and personal information is used for descriptive statistics only.")
+        st.write("This questionnaire consists of about ten questions, for which you will be asked to either select one or more answers, write them down or select them on a scale.")
+        st.write("The answers of the questionnaire are anonymous and personal information is used for descriptive statistics only.")
         st.markdown("_Please note: once the questionnaire has been started, it is not possible to go back._")
         st.session_state.deb_questionnaire = st.button("Begin the questionnaire")
         st.session_state.retour_menu = st.button("Back")
@@ -767,7 +801,7 @@ elif st.session_state.menu == 11:
             sexe = st.selectbox('Gender', ["-", "Male", "Female", "Unspecified"])
             age = st.selectbox('Age', ["-", "18-25", "26-35", "36-50", "51 and more"])
             type_entreprise = st.selectbox("Type of company", ["-", "Student", "Insurance company", "Mutuelle", "Bank insurer", "Consulting firm", "Reinsurer", "Other"])
-            seniorite = st.selectbox("Actuarial seniority", ["-", "Student", "0-2 ans", "3-5 ans", "6-8 ans", "9-15 ans", "16 ans et plus"])
+            seniorite = st.selectbox("Actuarial seniority", ["-", "Student", "0-2 years", "3-5 years", "6-8 years", "9-15 years", "16 years and more"])
             submit_button_1 = st.form_submit_button(label='Next page')
 
         if submit_button_1:
@@ -856,27 +890,27 @@ elif st.session_state.menu == 11:
         annee_evol_primes = [1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010]
         valeur_evol_primes = [252.32, 245.46, 243.89, 247.74, 249.43, 244.71, 257.31, 249.67, 252.28, 256.69, 254.42,
                               256.13, 262.21]
-        data_evol_primes = {"Annee": annee_evol_primes, "Montant de prime": valeur_evol_primes}
+        data_evol_primes = {"Year": annee_evol_primes, "Earned premiums": valeur_evol_primes}
         dataframe_evol_primes = pd.DataFrame(data_evol_primes)
 
         nearest_prime = alt.selection(type='single', nearest=True, on='mouseover',
-                                      fields=['Annee'], empty='none')
+                                      fields=['Year'], empty='none')
 
         if st.session_state.alea < 0.5:
             # The basic line
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
-                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
-                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[240, 266]))
+                x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                y=alt.Y('Earned premiums:Q', scale=alt.Scale(domain=[240, 266]))
             )
         else:
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='darkred').encode(
-                x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
-                y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[150, 300]))
+                x=alt.X('Year:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
+                y=alt.Y('Earned premiums:Q', scale=alt.Scale(domain=[150, 300]))
             )
 
         # Transparent selectors across the chart. This is what tells us the x-value of the cursor
         selectors_prime = alt.Chart(dataframe_evol_primes).mark_point().encode(
-            x='Annee:T',
+            x='Year:T',
             opacity=alt.value(0),
         ).add_selection(
             nearest_prime
@@ -890,11 +924,11 @@ elif st.session_state.menu == 11:
         # Draw text labels near the points, and highlight based on selection
         text_prime = line_prime.mark_text(color='darkgrey', align='left', dx=-25, dy=20, size=20,
                                           fontWeight="bold").encode(
-            text=alt.condition(nearest_prime, 'Montant de prime:Q', alt.value(' '), format=".1f")
+            text=alt.condition(nearest_prime, 'Earned premiums:Q', alt.value(' '), format=".1f")
         )
         # Draw a rule at the location of the selection
         rules_prime = alt.Chart(dataframe_evol_primes).mark_rule(color='gray').encode(
-            x='Annee:T',
+            x='Year:T',
         ).transform_filter(
             nearest_prime
         )
@@ -918,13 +952,13 @@ elif st.session_state.menu == 11:
             with st.form(key="montant_prime"):
                 slider_prime_un_an = st.slider("Amount of premiums in 2011?", 200.0, 350.0, 240.0)
                 slider_prime_cinq_ans = st.slider("Amount of premiums in 2015?", 200.0, 350.0, 240.0)
-                sb_montant_prime = st.form_submit_button(label="Page suivante")
+                sb_montant_prime = st.form_submit_button(label="Next page")
 
         else:
             with st.form(key="montant_prime"):
                 slider_prime_un_an = st.slider("Amount of premiums in 2011?", 200.0, 350.0, 300.0)
                 slider_prime_cinq_ans = st.slider("Amount of premiums in 2015?", 200.0, 350.0, 300.0)
-                sb_montant_prime = st.form_submit_button(label="Page suivante")
+                sb_montant_prime = st.form_submit_button(label="Next page")
 
         if sb_montant_prime:
             st.session_state.page += 1
@@ -932,6 +966,41 @@ elif st.session_state.menu == 11:
             st.session_state.user_data.append(slider_prime_un_an)
             st.session_state.user_data.append("Montant de prime à cing an")
             st.session_state.user_data.append(slider_prime_cinq_ans)
+
+            st.experimental_rerun()
+
+    #Estimation de la sinistralité la plus importante
+    elif st.session_state.page == 4:
+
+        st.header("Insurance market")
+
+        with st.form(key="gambler"):
+            st.write("In your opinion, were there more home burglaries or cyber attacks on businesses in France in 2020?")
+            estimation_utilisateur = st.selectbox('Estimation', ["-", "There were proportionally more residential burglaries", "There were proportionally more cyber attacks on businesses"])
+            sb_estimation = st.form_submit_button(label='Next page')
+
+        if sb_estimation:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(estimation_utilisateur)
+
+            st.experimental_rerun()
+
+    elif st.session_state.page == 5:
+
+        st.header("Insurance market")
+
+        with st.form(key="Niveau sinistre"):
+            st.write("If you were to estimate the level of certainty of your previous answer, how would you rate it? From 0 (absolutely uncertain) to 100 (absolutely certain)")
+            certitude_reponse = st.slider("Certainty of the previous answer", min_value=0, max_value=100, value=50)
+            sb_certitude = st.form_submit_button(label="Next page")
+
+        if sb_certitude:
+            st.session_state.page += 1
+
+            st.session_state.user_data.append("Estimation sinistralité")
+            st.session_state.user_data.append(certitude_reponse)
 
             # GROUPE QUESTION SUIVANTE
             st.session_state.alea = random.uniform(0, 1)
@@ -945,7 +1014,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Evolution de la charge sinistre (retour moyenne)
-    elif st.session_state.page == 4:
+    elif st.session_state.page == 6:
 
         Year = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
         Moyenne_bas = [74.797696, 82.036351, 76.343512, 78.146366, 74.180035, 81.828443, 81.356627, 86.071678, 72.779008, 76.031071, 72.709526, 70.671256, 79.007412, 77.816575, 55.438527]
@@ -1021,7 +1090,7 @@ elif st.session_state.menu == 11:
             # Put the five layers into a chart and bind the data
             graphe_haut_vert = alt.layer(line_haut_vert, selectors, points_haut_vert, rules, text_haut_vert)
 
-            st.write("Data is available on an insurance company's multi-risk homeowner's claims burden between 2002 and 2016 (in millions of euros).")
+            st.write("The available data is the level of claims observed by an insurance company on its individual property insurance product between 2002 and 2016 (in millions of euros)")
             st.markdown("There were no significant changes in the risk profile of the portfolio.")
 
             col1, col2 = st.columns(2)
@@ -1031,11 +1100,11 @@ elif st.session_state.menu == 11:
             with col2:
                 st.write(dataframe_haut)
 
-            st.write("How much do you think the loss burden is likely to be for the year 2017? And for the year 2021 (in millions)?")
+            st.write("How much do you think the level of claims is likely to be for the year 2017? And for the year 2021 (in millions)?")
 
             with st.form(key="retour_moyenne_1"):
-                slider_retour_moyenne = st.slider("Losses in 2017", 60.0, 160.0, 110.0)
-                slider_retour_moyenne_2 = st.slider("Losses in 2021", 0.0, 220.0, 110.0)
+                slider_retour_moyenne = st.slider("Level of claims in 2017", 60.0, 160.0, 110.0)
+                slider_retour_moyenne_2 = st.slider("Level of claims in 2021", 0.0, 220.0, 110.0)
                 sb_retour_moyenne = st.form_submit_button(label="Next page")
 
         if sb_retour_moyenne:
@@ -1046,12 +1115,12 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Gambler's fallacy
-    elif st.session_state.page == 5:
+    elif st.session_state.page == 7:
 
         st.header("Risk approach")
 
         with st.form(key="gambler"):
-            st.write("The average probability of having a not-at-fault accident for the individuals in the portfolio is estimated at 2%. Policyholders A and B have the same risk profile and driving practices.")
+            st.write("The average probability of having a not-at-fault accident for the individuals in the portfolio is estimated at 2%. Policyholders A and B have the same risk profile and driving experience.")
             st.write("Last year, individual A had 4 non-at-fault auto accidents while B had none.")
             accident = st.text_input("Who is most likely to have another accident first?")
             sb_gambler = st.form_submit_button(label="Next page")
@@ -1073,7 +1142,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Position par rapport à l'ancre MRH
-    elif st.session_state.page == 6:
+    elif st.session_state.page == 8:
 
         st.header("Insurance market")
 
@@ -1099,7 +1168,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Ratio S/P MRH
-    elif st.session_state.page == 7:
+    elif st.session_state.page == 9:
 
         st.header("Insurance market")
 
@@ -1181,7 +1250,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Maladie Kahneman
-    elif st.session_state.page == 8:
+    elif st.session_state.page == 10:
 
         st.header("Attitude towards risk")
 
@@ -1207,7 +1276,7 @@ elif st.session_state.menu == 11:
             st.experimental_rerun()
 
     # Remarques
-    elif st.session_state.page == 9:
+    elif st.session_state.page == 11:
 
         with st.form(key='my_form_end'):
             retour_utilisateur = st.text_input(label='You can write down any remarks here')
