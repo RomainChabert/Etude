@@ -251,7 +251,7 @@ elif st.session_state.menu == 1:
 
         nearest_prime = alt.selection(type='single', nearest=True, on='mouseover',
                                       fields=['Annee'], empty='none')
-
+        
         if st.session_state.alea < 0.5:
             # The basic line
             line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
@@ -304,17 +304,38 @@ elif st.session_state.menu == 1:
         # st.altair_chart(line_prime,True)
         st.altair_chart(graphe_prime, True)
 
-        if st.session_state.alea2 < 0.5:
-            with st.form(key="montant_prime"):
-                slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 240.0)
-                slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 240.0)
-                sb_montant_prime = st.form_submit_button(label="Page suivante")
-
-        else:
+        if st.session_state.alea < 0.5:
             with st.form(key="montant_prime"):
                 slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
                 slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 300.0)
                 sb_montant_prime = st.form_submit_button(label="Page suivante")
+        
+        else:
+            if st.session_state.alea2 < 0.5:
+                with st.form(key="montant_prime"):
+                    slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 240.0)
+                    slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 240.0)
+                    sb_montant_prime = st.form_submit_button(label="Page suivante")
+            else:
+                with st.form(key="montant_prime"):
+                    slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
+                    slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 300.0)
+                    sb_montant_prime = st.form_submit_button(label="Page suivante")
+
+        #ECARTE LE 12/05/2022
+        #if st.session_state.alea2 < 0.5:
+            #with st.form(key="montant_prime"):
+                #slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 240.0)
+                #slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 240.0)
+                #slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
+                #slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 300.0)
+                #sb_montant_prime = st.form_submit_button(label="Page suivante")
+
+        #else:
+            #with st.form(key="montant_prime"):
+                #slider_prime_un_an = st.slider("Montant de primes en 2011 ?", 200.0, 350.0, 300.0)
+                #slider_prime_cinq_ans = st.slider("Montant de primes en 2015 ?", 200.0, 350.0, 300.0)
+                #sb_montant_prime = st.form_submit_button(label="Page suivante")
 
         if sb_montant_prime:
             st.session_state.page += 1
