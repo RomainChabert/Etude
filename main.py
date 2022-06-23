@@ -254,12 +254,14 @@ elif st.session_state.menu == 1:
         
         if st.session_state.alea < 0.5:
             # The basic line
-            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='mediumseagreen').encode(
+            #mediumseagreen
+            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='1F77B4').encode(
                 x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
                 y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[240, 266]))
             )
         else:
-            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='darkred').encode(
+            #darkred
+            line_prime = alt.Chart(dataframe_evol_primes).mark_line(strokeWidth=6, color='1F77B4').encode(
                 x=alt.X('Annee:T', scale=alt.Scale(domain=[870000000000, 1280000000000])),
                 y=alt.Y('Montant de prime:Q', scale=alt.Scale(domain=[150, 300]))
             )
